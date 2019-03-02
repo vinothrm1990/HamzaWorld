@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.CheckoutActivity">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_margin="10dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_margin="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:text="SHIPPING ADDRESS"
+                        android:fontFamily="@font/share_bold"
+                        android:textSize="18sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <LinearLayout
+                        android:weightSum="2"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <LinearLayout
+                            android:layout_weight="0.2"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:id="@+id/check_tv_name"
+                                android:layout_marginTop="10dp"
+                                android:text=""
+                                android:fontFamily="@font/share_regular"
+                                android:textSize="20sp"
+                                android:textColor="#000000"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+                            <TextView
+                                android:id="@+id/check_tv_add1"
+                                android:layout_marginTop="10dp"
+                                android:text=""
+                                android:fontFamily="@font/share_regular"
+                                android:textSize="18sp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+                            <TextView
+                                android:id="@+id/check_tv_add2"
+                                android:layout_marginTop="10dp"
+                                android:text=""
+                                android:fontFamily="@font/share_regular"
+                                android:textSize="18sp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+                            <TextView
+                                android:id="@+id/check_tv_city"
+                                android:layout_marginTop="10dp"
+                                android:text=""
+                                android:fontFamily="@font/share_regular"
+                                android:textSize="18sp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+                            <TextView
+                                android:id="@+id/check_tv_state"
+                                android:layout_marginTop="10dp"
+                                android:text=""
+                                android:fontFamily="@font/share_regular"
+                                android:textSize="18sp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+                            <TextView
+                                android:id="@+id/check_tv_pincode"
+                                android:layout_marginTop="10dp"
+                                android:text=""
+                                android:fontFamily="@font/share_regular"
+                                android:textSize="18sp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+                            <TextView
+                                android:layout_marginBottom="20sp"
+                                android:id="@+id/check_tv_mobile"
+                                android:layout_marginTop="10dp"
+                                android:text=""
+                                android:fontFamily="@font/share_regular"
+                                android:textSize="18sp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1.8"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <ImageView
+                                android:id="@+id/check_iv_change"
+                                android:backgroundTint="@color/colorTransparent"
+                                android:src="@drawable/ic_arrow_right"
+                                android:layout_gravity="center"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                        </LinearLayout>
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_margin="10dp"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:text="PAYMENT MODE"
+                        android:fontFamily="@font/share_bold"
+                        android:textSize="18sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <LinearLayout
+                        android:layout_margin="10dp"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <RadioButton
+                            android:buttonTint="@color/colorPrimaryDark"
+                            android:id="@+id/check_rb_cash"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/share_regular"
+                            android:textSize="20sp"
+                            android:text="Cash on Delivery"
+                            android:textColor="#000000"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <RadioButton
+                            android:buttonTint="@color/colorPrimaryDark"
+                            android:id="@+id/check_rb_online"
+                            android:layout_marginTop="20dp"
+                            android:fontFamily="@font/share_regular"
+                            android:textSize="20sp"
+                            android:text="Online Payment"
+                            android:textColor="#000000"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:textColor="#f00020"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/share_regular"
+                    android:text="Total Amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:paddingBottom="5dp"
+                    android:id="@+id/check_total"
+                    android:layout_marginBottom="2dp"
+                    android:textColor="#1dad01"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/share_bold"
+                    android:text=""
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <Button
+                android:layout_margin="10dp"
+                android:id="@+id/check_btn_place"
+                android:layout_marginRight="5dp"
+                android:textSize="18sp"
+                android:fontFamily="@font/share_bold"
+                android:textColor="#FFF"
+                android:background="@color/colorOrange"
+                android:layout_weight="1"
+                android:text="PLACE ORDER"
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+        </LinearLayout>
+    </LinearLayout>
+    <in.ishankhanna.UberProgressView
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:id="@+id/checkout_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:fading_circle_color="@android:color/holo_red_dark"
+        app:stationary_circle_color="@android:color/holo_red_dark"
+        app:orbiting_circle_color="@android:color/holo_red_dark"
+        app:direction="clockwise"
+        app:orbiting_circle_radius="3dp"
+        app:stationary_circle_radius="8dp" />
+</RelativeLayout>

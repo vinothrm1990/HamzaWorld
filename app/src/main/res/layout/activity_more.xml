@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.MoreActivity">
+
+    <ScrollView
+        android:layout_marginBottom="30dp"
+        android:layout_margin="10dp"
+        android:fillViewport="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_margin="10dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_margin="5dp"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                        <LinearLayout
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="5dp"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <LinearLayout
+                                android:id="@+id/more_order"
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp">
+                                <ImageView
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_order"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content" />
+                                <TextView
+                                    android:paddingLeft="15dp"
+                                    android:textSize="18sp"
+                                    android:layout_gravity="center"
+                                    android:fontFamily="@font/share_regular"
+                                    android:text="My Orders"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content" />
+                            </LinearLayout>
+                            <View
+                                android:layout_marginTop="20dp"
+                                android:background="@color/colorAccent"
+                                android:layout_width = "match_parent"
+                                android:layout_height="1dp"/>
+                            <LinearLayout
+                                android:layout_marginTop="15dp"
+                                android:layout_marginBottom="5dp"
+                                android:id="@+id/more_track"
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp">
+                                <ImageView
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_track"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content" />
+                                <TextView
+                                    android:paddingLeft="15dp"
+                                    android:textSize="18sp"
+                                    android:layout_gravity="center"
+                                    android:fontFamily="@font/share_regular"
+                                    android:text="Track Orders"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content" />
+                            </LinearLayout>
+                            <View
+                                android:layout_marginTop="20dp"
+                                android:background="@color/colorAccent"
+                                android:layout_width = "match_parent"
+                                android:layout_height="1dp"/>
+                            <LinearLayout
+                                android:id="@+id/more_bag"
+                                android:layout_marginTop="15dp"
+                                android:layout_marginBottom="5dp"
+                                android:layout_gravity="center"
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp">
+                                <ImageView
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_bag"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content" />
+                                <TextView
+                                    android:paddingLeft="15dp"
+                                    android:textSize="18sp"
+                                    android:layout_gravity="center"
+                                    android:fontFamily="@font/share_regular"
+                                    android:text="My Bag"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content" />
+                            </LinearLayout>
+                            <View
+                                android:layout_marginTop="20dp"
+                                android:background="@color/colorAccent"
+                                android:layout_width = "match_parent"
+                                android:layout_height="1dp"/>
+                            <LinearLayout
+                                android:id="@+id/more_support"
+                                android:layout_marginTop="15dp"
+                                android:layout_marginBottom="5dp"
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp">
+                                <ImageView
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_support"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content" />
+                                <TextView
+                                    android:paddingLeft="15dp"
+                                    android:textSize="18sp"
+                                    android:layout_gravity="center"
+                                    android:fontFamily="@font/share_regular"
+                                    android:text="Customer Support"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content" />
+                            </LinearLayout>
+                            <View
+                                android:layout_marginTop="20dp"
+                                android:background="@color/colorAccent"
+                                android:layout_width = "match_parent"
+                                android:layout_height="1dp"/>
+                            <LinearLayout
+                                android:id="@+id/more_privacy"
+                                android:layout_marginTop="15dp"
+                                android:layout_marginBottom="5dp"
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp">
+                                <ImageView
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_privacy"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content" />
+                                <TextView
+                                    android:paddingLeft="15dp"
+                                    android:textSize="18sp"
+                                    android:layout_gravity="center"
+                                    android:fontFamily="@font/share_regular"
+                                    android:text="Privacy Policy"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content" />
+                            </LinearLayout>
+                            <View
+                                android:layout_marginTop="20dp"
+                                android:background="@color/colorAccent"
+                                android:layout_width = "match_parent"
+                                android:layout_height="1dp"/>
+                            <LinearLayout
+                                android:id="@+id/more_rate"
+                                android:layout_marginTop="15dp"
+                                android:layout_marginBottom="5dp"
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp">
+                                <ImageView
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_rate"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content" />
+                                <TextView
+                                    android:paddingLeft="15dp"
+                                    android:textSize="18sp"
+                                    android:layout_gravity="center"
+                                    android:fontFamily="@font/share_regular"
+                                    android:text="Rate Our App"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content" />
+                            </LinearLayout>
+                            <View
+                                android:layout_marginTop="20dp"
+                                android:background="@color/colorAccent"
+                                android:layout_width = "match_parent"
+                                android:layout_height="1dp"/>
+                            <LinearLayout
+                                android:id="@+id/more_logout"
+                                android:layout_marginTop="15dp"
+                                android:layout_marginBottom="5dp"
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp">
+                                <ImageView
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_logout"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content" />
+                                <TextView
+                                    android:paddingLeft="15dp"
+                                    android:textSize="18sp"
+                                    android:layout_gravity="center"
+                                    android:fontFamily="@font/share_regular"
+                                    android:text="Logout"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content" />
+                            </LinearLayout>
+                            <View
+                                android:layout_marginTop="20dp"
+                                android:background="@color/colorAccent"
+                                android:layout_width = "match_parent"
+                                android:layout_height="1dp"/>
+                        </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:elevation="5dp"
+        android:layout_alignParentBottom="true"
+        app:itemBackground="@color/colorPrimaryDark"
+        app:itemIconTint="@color/nav_color"
+        app:itemTextColor="@color/nav_color"
+        app:menu="@menu/nav_menu" />
+
+    <in.ishankhanna.UberProgressView
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:id="@+id/more_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:fading_circle_color="@android:color/holo_red_dark"
+        app:stationary_circle_color="@android:color/holo_red_dark"
+        app:orbiting_circle_color="@android:color/holo_red_dark"
+        app:direction="clockwise"
+        app:orbiting_circle_radius="3dp"
+        app:stationary_circle_radius="8dp" />
+
+</android.support.design.widget.CoordinatorLayout>

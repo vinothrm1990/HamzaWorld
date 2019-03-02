@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv_brand"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="8dp"
+        android:elevation="10dp"
+        app:cardMaxElevation="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/brand_layout"
+            android:layout_margin="5dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.android.volley.toolbox.NetworkImageView
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:id="@+id/brand_subcat_iv"
+                android:layout_width="130dp"
+                android:layout_height="150dp" />
+            <TextView
+                android:textColor="@color/colorWhite"
+                android:background="@color/colorOrange"
+                android:layout_gravity="center"
+                android:fontFamily="@font/share_bold"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:layout_margin="5dp"
+                android:id="@+id/brand_subcat_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</RelativeLayout>

@@ -1,0 +1,635 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    tools:context=".activity.PrivacyActivity">
+    <ScrollView
+        android:fillViewport="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_margin="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:justificationMode="inter_word"
+                        android:text="RETURN &amp; REFUND POLICY :"
+                        android:textSize="20sp"
+                        android:textColor="@color/colorOrange"
+                        android:fontFamily="@font/share_bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:src="@drawable/ic_arrow_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:justificationMode="inter_word"
+                            android:text="Thanks for shopping at Hamzaworld.com."
+                            android:textSize="18sp"
+                            android:textColor="#000"
+                            android:fontFamily="@font/share_regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:src="@drawable/ic_arrow_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:justificationMode="inter_word"
+                            android:text="If you are not entirely satisfied with your purchase, we're here to help."
+                            android:textSize="18sp"
+                            android:textColor="#000"
+                            android:fontFamily="@font/share_regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_margin="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:justificationMode="inter_word"
+                        android:text="RETURNS :"
+                        android:textColor="@color/colorOrange"
+                        android:textSize="20sp"
+                        android:fontFamily="@font/share_bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:src="@drawable/ic_arrow_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:justificationMode="inter_word"
+                            android:text="You have 10 calendar days to return an item from the date you received it."
+                            android:textSize="18sp"
+                            android:textColor="#000"
+                            android:fontFamily="@font/share_regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:src="@drawable/ic_arrow_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:justificationMode="inter_word"
+                            android:text="To be eligible for a return, your item must be unused and in the same condition that you received it."
+                            android:textSize="18sp"
+                            android:textColor="#000"
+                            android:fontFamily="@font/share_regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:src="@drawable/ic_arrow_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:justificationMode="inter_word"
+                            android:text="Your item must be in the original packaging."
+                            android:textSize="18sp"
+                            android:textColor="#000"
+                            android:fontFamily="@font/share_regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:src="@drawable/ic_arrow_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:justificationMode="inter_word"
+                            android:text="Your item needs to have the receipt or proof of purchase."
+                            android:textSize="18sp"
+                            android:textColor="#000"
+                            android:fontFamily="@font/share_regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_margin="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:justificationMode="inter_word"
+                        android:text="REFUNDS :"
+                        android:textColor="@color/colorOrange"
+                        android:textSize="20sp"
+                        android:fontFamily="@font/share_bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:src="@drawable/ic_arrow_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:justificationMode="inter_word"
+                            android:text="Once we receive your item, we will inspect it and notify you that we have received your returned item. We will immediately notify you on the status of your refund after inspecting the item."
+                            android:textSize="18sp"
+                            android:textColor="#000"
+                            android:fontFamily="@font/share_regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:src="@drawable/ic_arrow_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:justificationMode="inter_word"
+                            android:text="If your return is approved, we will initiate a refund to your credit card/ Debit Card (or original method of payment)."
+                            android:textSize="18sp"
+                            android:textColor="#000"
+                            android:fontFamily="@font/share_regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:src="@drawable/ic_arrow_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:justificationMode="inter_word"
+                            android:text=" You will receive the money within 10 days, depending on your card issuer's policies."
+                            android:textSize="18sp"
+                            android:textColor="#000"
+                            android:fontFamily="@font/share_regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_margin="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:justificationMode="inter_word"
+                        android:text="SHIPPING :"
+                        android:textColor="@color/colorOrange"
+                        android:textSize="20sp"
+                        android:fontFamily="@font/share_bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:src="@drawable/ic_arrow_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:justificationMode="inter_word"
+                            android:text="You will be responsible for paying for your own shipping costs for returning your item. Shipping costs are non­refundable."
+                            android:textSize="18sp"
+                            android:textColor="#000"
+                            android:fontFamily="@font/share_regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:src="@drawable/ic_arrow_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:justificationMode="inter_word"
+                            android:text="If you receive a refund, the cost of return shipping will be deducted from your refund."
+                            android:textSize="18sp"
+                            android:textColor="#000"
+                            android:fontFamily="@font/share_regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_margin="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:justificationMode="inter_word"
+                        android:text="CONTACT US :"
+                        android:textColor="@color/colorOrange"
+                        android:textSize="20sp"
+                        android:fontFamily="@font/share_bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:src="@drawable/ic_arrow_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:justificationMode="inter_word"
+                            android:text="If you have any questions on how to return your item to us, contact us. Drop mail to support@hamzaworld.com or call us at +91-9751677796."
+                            android:textSize="18sp"
+                            android:textColor="#000"
+                            android:fontFamily="@font/share_regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_margin="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:justificationMode="inter_word"
+                        android:text="ELIGIBILTY FOR RETURN :"
+                        android:textColor="@color/colorOrange"
+                        android:textSize="20sp"
+                        android:fontFamily="@font/share_bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:src="@drawable/ic_arrow_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:justificationMode="inter_word"
+                            android:text="You have received a wrong product (i.e. the size or the colour is different from the selected option)or if."
+                            android:textSize="18sp"
+                            android:textColor="#000"
+                            android:fontFamily="@font/share_regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:src="@drawable/ic_arrow_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:justificationMode="inter_word"
+                            android:text="You have received a defective product."
+                            android:textSize="18sp"
+                            android:textColor="#000"
+                            android:fontFamily="@font/share_regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:src="@drawable/ic_arrow_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:justificationMode="inter_word"
+                            android:text="(Slight variation due to differences in monitor settings is to be considered normal and not a reason for return)."
+                            android:textSize="18sp"
+                            android:textColor="#000"
+                            android:fontFamily="@font/share_regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_margin="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:justificationMode="inter_word"
+                        android:text="RETURN IS PROCESSED ONLY IF :"
+                        android:textColor="@color/colorOrange"
+                        android:textSize="20sp"
+                        android:fontFamily="@font/share_bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:src="@drawable/ic_arrow_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:justificationMode="inter_word"
+                            android:text="The product is returned in original condition (with brand’s/manufacturer's box, MRP tag intact, user manual, warranty card and all the accessories therein)."
+                            android:textSize="18sp"
+                            android:textColor="#000"
+                            android:fontFamily="@font/share_regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:src="@drawable/ic_arrow_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:justificationMode="inter_word"
+                            android:text="The product is returned in original condition (with brand’s/manufacturer's box, MRP tag intact, user manual, warranty card and all the accessories therein)."
+                            android:textSize="18sp"
+                            android:textColor="#000"
+                            android:fontFamily="@font/share_regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:src="@drawable/ic_arrow_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:justificationMode="inter_word"
+                            android:text="The product being returned for exchange should be in unused condition."
+                            android:textSize="18sp"
+                            android:textColor="#000"
+                            android:fontFamily="@font/share_regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:src="@drawable/ic_arrow_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:justificationMode="inter_word"
+                            android:text="The shipping costs for returning the product purchased for exchange will not be reimbursed."
+                            android:textSize="18sp"
+                            android:textColor="#000"
+                            android:fontFamily="@font/share_regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_margin="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:justificationMode="inter_word"
+                        android:text="TO EXCHANGE OR RETURN :"
+                        android:textColor="@color/colorOrange"
+                        android:textSize="20sp"
+                        android:fontFamily="@font/share_bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:src="@drawable/ic_arrow_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:justificationMode="inter_word"
+                            android:text="Send a mail to support@hamzaworld.com and a Return Request Form (RRF) must be requested; Mention Order number in the body of the Mail. Our team will send the form, PHOTOGRAPH IS MANDATORY while submitting the form."
+                            android:textSize="18sp"
+                            android:textColor="#000"
+                            android:fontFamily="@font/share_regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:src="@drawable/ic_arrow_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:justificationMode="inter_word"
+                            android:text="Please ensure that the return packets are securely packaged to avoid damage of goods in transit. If found damaged, the goods will not be replaced or refunded."
+                            android:textSize="18sp"
+                            android:textColor="#000"
+                            android:fontFamily="@font/share_regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:src="@drawable/ic_arrow_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:justificationMode="inter_word"
+                            android:text="If the requisite size/design is not available immediately ( Applicable for Clothing’s and Footwear only), refunds will not be made. Instead we will issue refund coupons which you can redeem against a purchase within the next 45 days."
+                            android:textSize="18sp"
+                            android:textColor="#000"
+                            android:fontFamily="@font/share_regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_margin="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:justificationMode="inter_word"
+                        android:text="HAMZAWORLD POLICIES :"
+                        android:textColor="@color/colorOrange"
+                        android:textSize="20sp"
+                        android:fontFamily="@font/share_bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:src="@drawable/ic_arrow_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:justificationMode="inter_word"
+                            android:text="Our team will determine if it is fit for replacement and send you a mail informing you on the same."
+                            android:textSize="18sp"
+                            android:textColor="#000"
+                            android:fontFamily="@font/share_regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:src="@drawable/ic_arrow_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:justificationMode="inter_word"
+                            android:text="The replaced item will be despatched to your address immediately."
+                            android:textSize="18sp"
+                            android:textColor="#000"
+                            android:fontFamily="@font/share_regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:src="@drawable/ic_arrow_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:justificationMode="inter_word"
+                            android:text="If deemed not fit for return, we will send the goods back to you."
+                            android:textSize="18sp"
+                            android:textColor="#000"
+                            android:fontFamily="@font/share_regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:src="@drawable/ic_arrow_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:justificationMode="inter_word"
+                            android:text="Return/ Exchange request should be raised WITHIN 10 WORKING DAYS from delivered date. Replacement/ Refund will be done WITHIN 7 WORKING DAYS from the date product reaches us."
+                            android:textSize="18sp"
+                            android:textColor="#000"
+                            android:fontFamily="@font/share_regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:src="@drawable/ic_arrow_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:justificationMode="inter_word"
+                            android:text="If the return is not eligible for Pickup, a Self-Return option will be given."
+                            android:textSize="18sp"
+                            android:textColor="#000"
+                            android:fontFamily="@font/share_regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

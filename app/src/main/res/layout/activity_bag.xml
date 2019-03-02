@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.BagActivity">
+    <LinearLayout
+        android:id="@+id/bag_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_bag"
+            android:clipToPadding="false"
+            android:scrollbars="none"
+            android:layout_margin="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+    <LinearLayout
+        android:gravity="center"
+        android:visibility="gone"
+        android:id="@+id/bag_empty_layout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_gravity="center"
+            android:src="@drawable/empty"
+            android:layout_width="100dp"
+            android:layout_height="150dp" />
+        <TextView
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="Your Wishlist are Empty."
+            android:textSize="18sp"
+            android:fontFamily="@font/share_regular"
+            android:textColor="#000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <Button
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/round_btn_cart"
+            android:id="@+id/bag_btn_add"
+            android:fontFamily="@font/share_bold"
+            android:text="ADD SOME OF IT"
+            android:textColor="#FFF"
+            android:textSize="18sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <in.ishankhanna.UberProgressView
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:id="@+id/bag_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:fading_circle_color="@android:color/holo_red_dark"
+        app:stationary_circle_color="@android:color/holo_red_dark"
+        app:orbiting_circle_color="@android:color/holo_red_dark"
+        app:direction="clockwise"
+        app:orbiting_circle_radius="3dp"
+        app:stationary_circle_radius="8dp" />
+</RelativeLayout>

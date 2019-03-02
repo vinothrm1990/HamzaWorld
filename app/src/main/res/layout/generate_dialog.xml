@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:layout_margin="15dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:fontFamily="@font/share_bold"
+            android:textColor="@color/colorOrange"
+            android:textSize="20sp"
+            android:text="GENERATE OTP"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_margin="10dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:paddingLeft="10dp"
+                android:layout_margin="5dp"
+                android:text="MOBILE NO :"
+                android:textSize="16sp"
+                android:fontFamily="@font/share_bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <com.libizo.CustomEditText
+                android:id="@+id/generate_et_mobile"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_margin="5dp"
+                android:hint=""
+                android:inputType="phone"
+                android:imeOptions="actionDone"
+                android:text=""
+                android:maxLength="10"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:libIZO_setFont="@string/share_regular"
+                app:libIZO_clearIconTint="@color/colorAccent"
+                app:libIZO_setBorderColor="#5c5c5c"
+                app:libIZO_setBorderView="true"
+                app:libIZO_setClearIconVisible="true"
+                app:libIZO_setCornerRadius="50dp"
+                app:libIZO_setStrokeWidth="2dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_margin="10dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:layout_margin="30dp"
+                android:id="@+id/generate_btn"
+                android:textColor="@color/colorWhite"
+                android:gravity="center"
+                android:text="GENERATE"
+                android:textSize="20sp"
+                android:background="@drawable/round_btn_cart"
+                android:fontFamily="@font/share_bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

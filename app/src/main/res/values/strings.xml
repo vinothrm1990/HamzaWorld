@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">HamzaWorld</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_cart">Cart</string>
+    <string name="title_more">More</string>
+    <string name="share_bold">share_bold.otf</string>
+    <string name="share_regular">share_regular.otf</string>
+</resources>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.TrackActivity">
+    <WebView
+        android:id="@+id/track_webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <in.ishankhanna.UberProgressView
+        android:visibility="gone"
+        android:id="@+id/track_progress"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:fading_circle_color="@android:color/holo_red_dark"
+        app:stationary_circle_color="@android:color/holo_red_dark"
+        app:orbiting_circle_color="@android:color/holo_red_dark"
+        app:direction="clockwise"
+        app:orbiting_circle_radius="3dp"
+        app:stationary_circle_radius="8dp" />
+</RelativeLayout>

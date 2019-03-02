@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.ProductActivity">
+    <LinearLayout
+        android:id="@+id/product_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:clipToPadding="false"
+            android:scrollbars="vertical"
+            android:padding="5dp"
+            android:layout_height="match_parent"
+            android:id="@+id/rv_product"/>
+    </LinearLayout>
+    <LinearLayout
+        android:gravity="center"
+        android:background="#FFF"
+        android:visibility="gone"
+        android:id="@+id/product_empty_layout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_gravity="center"
+            android:src="@drawable/empty"
+            android:layout_width="100dp"
+            android:layout_height="150dp" />
+        <TextView
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="Sorry, No Products are Available."
+            android:textSize="18sp"
+            android:fontFamily="@font/share_regular"
+            android:textColor="#000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <in.ishankhanna.UberProgressView
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:id="@+id/product_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:fading_circle_color="@android:color/holo_red_dark"
+        app:stationary_circle_color="@android:color/holo_red_dark"
+        app:orbiting_circle_color="@android:color/holo_red_dark"
+        app:direction="clockwise"
+        app:orbiting_circle_radius="3dp"
+        app:stationary_circle_radius="8dp" />
+</RelativeLayout>
