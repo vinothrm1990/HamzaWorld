@@ -197,6 +197,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                         <TextView
+                            android:visibility="visible"
                             android:id="@+id/tab_goffer_color"
                             android:layout_marginTop="10dp"
                             android:fontFamily="@font/share_regular"
@@ -204,6 +205,11 @@
                             android:text=""
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
+                        <RadioGroup
+                            android:visibility="gone"
+                            android:id="@+id/radio_color"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
                     </LinearLayout>
                     <LinearLayout
                         android:layout_marginTop="20dp"

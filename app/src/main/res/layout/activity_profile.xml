@@ -76,12 +76,12 @@
                                     android:layout_margin="10dp"
                                     android:text="MOBILE NO :"
                                     android:textSize="16sp"
-                                    android:textColor="#000000"
+                                    android:textColor="@color/colorWhite"
                                     android:fontFamily="@font/share_bold"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content" />
                                 <TextView
-                                    android:textColor="#000000"
+                                    android:textColor="@color/colorWhite"
                                     android:layout_weight="1"
                                     android:id="@+id/profile_tv_mobile"
                                     android:layout_margin="10dp"
@@ -97,7 +97,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
                                 <TextView
-                                    android:textColor="#000000"
+                                    android:textColor="@color/colorWhite"
                                     android:layout_weight="1"
                                     android:layout_margin="10dp"
                                     android:text="ADDRESS 1 :"
@@ -106,7 +106,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content" />
                                 <TextView
-                                    android:textColor="#000000"
+                                    android:textColor="@color/colorWhite"
                                     android:layout_weight="1"
                                     android:id="@+id/profile_tv_address1"
                                     android:layout_margin="10dp"
@@ -125,7 +125,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
                                 <TextView
-                                    android:textColor="#000000"
+                                    android:textColor="@color/colorWhite"
                                     android:layout_weight="1"
                                     android:layout_margin="10dp"
                                     android:text="ADDRESS 2 :"
@@ -134,7 +134,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content" />
                                 <TextView
-                                    android:textColor="#000000"
+                                    android:textColor="@color/colorWhite"
                                     android:layout_weight="1"
                                     android:id="@+id/profile_tv_address2"
                                     android:layout_margin="10dp"
@@ -153,7 +153,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
                                 <TextView
-                                    android:textColor="#000000"
+                                    android:textColor="@color/colorWhite"
                                     android:layout_weight="1"
                                     android:layout_margin="10dp"
                                     android:text="CITY :"
@@ -162,7 +162,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content" />
                                 <TextView
-                                    android:textColor="#000000"
+                                    android:textColor="@color/colorWhite"
                                     android:layout_weight="1"
                                     android:id="@+id/profile_tv_city"
                                     android:layout_margin="10dp"
@@ -179,7 +179,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
                                 <TextView
-                                    android:textColor="#000000"
+                                    android:textColor="@color/colorWhite"
                                     android:layout_weight="1"
                                     android:layout_margin="10dp"
                                     android:text="STATE :"
@@ -188,7 +188,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content" />
                                 <TextView
-                                    android:textColor="#000000"
+                                    android:textColor="@color/colorWhite"
                                     android:layout_weight="1"
                                     android:id="@+id/profile_tv_state"
                                     android:layout_margin="10dp"
@@ -205,7 +205,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
                                 <TextView
-                                    android:textColor="#000000"
+                                    android:textColor="@color/colorWhite"
                                     android:layout_weight="1"
                                     android:layout_margin="10dp"
                                     android:text="PINCODE :"
@@ -214,7 +214,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content" />
                                 <TextView
-                                    android:textColor="#000000"
+                                    android:textColor="@color/colorWhite"
                                     android:layout_weight="1"
                                     android:id="@+id/profile_tv_pincode"
                                     android:layout_margin="10dp"
@@ -568,6 +568,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
+                android:textColor="@color/colorWhite"
                 android:textSize="18sp"
                 android:gravity="center"
                 android:fontFamily="@font/share_regular"
@@ -597,7 +598,7 @@
                 <TextView
                     android:paddingLeft="15dp"
                     android:layout_margin="10dp"
-                    android:textColor="@color/colorOrange"
+                    android:textColor="@color/colorAccent"
                     android:fontFamily="@font/share_bold"
                     android:textSize="23sp"
                     android:gravity="left"
@@ -732,7 +733,7 @@
         <TextView
             android:paddingLeft="15dp"
             android:layout_margin="10dp"
-            android:textColor="@color/colorOrange"
+            android:textColor="@color/colorAccent"
             android:fontFamily="@font/share_bold"
             android:textSize="23sp"
             android:gravity="left"

@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,6 +21,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -90,6 +93,7 @@ public class DetailActivity extends AppCompatActivity implements InternetConnect
     String cus_id, b_id, b_name, b_mobile;
     TextView tvName, tvPrice, tvCrossPrice, tvRate, tvTabProduct, tvTabDetail, tvTabReview,
             tvProductColor, tvProductSize, tvStock, tvDetailCategory, tvDetailBrand, tvDetailDesc;
+    RadioGroup rgColor;
     String DETAIL_URL = Helper.BASE_URL + Helper.GET_DETAIL;
     String REVIEW_URL = Helper.BASE_URL + Helper.GET_RATING;
     String CART_URL = Helper.BASE_URL + Helper.ADD_REMOVE_CART;
@@ -146,6 +150,7 @@ public class DetailActivity extends AppCompatActivity implements InternetConnect
         tvTabDetail = findViewById(R.id.detail_tab_detail);
         tvTabReview = findViewById(R.id.detail_tab_review);
         tvProductColor = findViewById(R.id.tab_product_color);
+        rgColor = findViewById(R.id.radio_color);
         tvProductSize = findViewById(R.id.tab_product_size);
         tvDetailCategory = findViewById(R.id.tab_detail_category);
         tvDetailBrand = findViewById(R.id.tab_detail_brand);
@@ -214,7 +219,6 @@ public class DetailActivity extends AppCompatActivity implements InternetConnect
                 tabDetailLayout.setVisibility(View.VISIBLE);
                 tabProductLayout.setVisibility(View.GONE);
                 tabReviewLayout.setVisibility(View.GONE);
-
 
             }
         });
@@ -903,8 +907,8 @@ public class DetailActivity extends AppCompatActivity implements InternetConnect
                                     String prate =  object.getString("prate");
                                     String trate =  object.getString("trate");
                                     String size =  object.getString("size");
-                                    String color =  object.getString("color");
-                                    String desc =  object.getString("mobile_app");
+                                    String color =  object.getString("all_color");
+                                    String desc =  object.getString("pro_desc");
                                     String branchid =  object.getString("b_id");
                                     String branchname =  object.getString("branchname");
                                     String branchmobile =  object.getString("b_mobile");
@@ -913,7 +917,6 @@ public class DetailActivity extends AppCompatActivity implements InternetConnect
                                     Prefs.putString("bid", branchid);
                                     Prefs.putString("bname", branchname);
                                     Prefs.putString("bmobile" , branchmobile);
-
 
                                     if (sliderimage!=null && !sliderimage.isEmpty()){
                                         String [] list = sliderimage.split(",");
@@ -944,7 +947,7 @@ public class DetailActivity extends AppCompatActivity implements InternetConnect
                                     tvDetailBrand.setText(brand);
 
                                     if (desc!=null && !desc.isEmpty() && desc.trim().length() > 0) {
-                                        tvDetailDesc.setText(desc);
+                                        tvDetailDesc.setText(Html.fromHtml(desc));
                                     }else {
                                         tvDetailDesc.setText("NA");
                                     }
@@ -955,9 +958,30 @@ public class DetailActivity extends AppCompatActivity implements InternetConnect
                                         tvRate.setText("0");
                                     }
 
-                                    if (color!=null && !color.isEmpty() && color.trim().length() > 0){
+                                   /* if (color!=null && !color.isEmpty() && color.trim().length() > 0){
                                         tvProductColor.setText(color);
                                     }else {
+                                        tvProductColor.setText("NA");
+                                    }*/
+
+
+                                    List<String> allColor = Arrays.asList(color.split("\\s*,\\s*"));
+                                    rgColor.setOrientation(LinearLayout.HORIZONTAL);
+                                    Typeface font = Typeface.createFromAsset(getAssets(), "share_regular.otf");
+
+                                    if (color!=null && !color.isEmpty() && color.trim().length() > 0){
+                                        rgColor.setVisibility(View.VISIBLE);
+                                        tvProductColor.setVisibility(View.GONE);
+                                        for (int i = 0; i < allColor.size(); i++) {
+                                            RadioButton rbColor = new RadioButton(DetailActivity.this);
+                                            rbColor.setText(allColor.get(i)+"");
+                                            rbColor.setTypeface(font);
+                                            rbColor.setTextColor(Color.parseColor("#5c5c5c"));
+                                            rgColor.addView(rbColor);
+                                        }
+                                    }else {
+                                        rgColor.setVisibility(View.GONE);
+                                        tvProductColor.setVisibility(View.VISIBLE);
                                         tvProductColor.setText("NA");
                                     }
 
@@ -975,9 +999,6 @@ public class DetailActivity extends AppCompatActivity implements InternetConnect
                                         tvStock.setTextColor(getResources().getColor(R.color.colorRed));
                                         btnLayout.setVisibility(View.GONE);
                                     }
-
-
-
 
                                 }else if (jsonObject.getString("status")
                                         .equalsIgnoreCase("empty")){

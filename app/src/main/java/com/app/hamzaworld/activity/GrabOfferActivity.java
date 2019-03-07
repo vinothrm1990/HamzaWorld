@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,6 +21,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -86,6 +89,7 @@ public class GrabOfferActivity extends AppCompatActivity implements InternetConn
     RecyclerView.LayoutManager layoutManager;
     ScrollView detailLayout;
     LinearLayout emptyLayout;
+    RadioGroup rgColor;
     String cus_id, b_id, b_name, b_mobile;
     TextView tvName, tvPrice, tvCrossPrice, tvRate, tvTabProduct, tvTabDetail, tvTabReview,
             tvProductColor, tvProductSize, tvStock, tvDetailCategory, tvDetailBrand, tvDetailDesc;
@@ -131,6 +135,7 @@ public class GrabOfferActivity extends AppCompatActivity implements InternetConn
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setCustomView(title);
 
+        rgColor = findViewById(R.id.radio_color);
         progress = findViewById(R.id.goffer_progress);
         viewPager = findViewById(R.id.slide_pager);
         pageIndicator = findViewById(R.id.slide_indicator);
@@ -906,8 +911,8 @@ public class GrabOfferActivity extends AppCompatActivity implements InternetConn
                                     String prate =  object.getString("prate");
                                     String trate =  object.getString("trate");
                                     String size =  object.getString("size");
-                                    String color =  object.getString("color");
-                                    String desc =  object.getString("mobile_app");
+                                    String color =  object.getString("all_color");
+                                    String desc =  object.getString("pro_desc");
                                     String branchid =  object.getString("b_id");
                                     String branchname =  object.getString("branchname");
                                     String branchmobile =  object.getString("b_mobile");
@@ -946,7 +951,7 @@ public class GrabOfferActivity extends AppCompatActivity implements InternetConn
                                     tvDetailBrand.setText(brand);
 
                                     if (desc!=null && !desc.isEmpty() && desc.trim().length() > 0) {
-                                        tvDetailDesc.setText(desc);
+                                        tvDetailDesc.setText(Html.fromHtml(desc));
                                     }else {
                                         tvDetailDesc.setText("NA");
                                     }
@@ -957,9 +962,29 @@ public class GrabOfferActivity extends AppCompatActivity implements InternetConn
                                         tvRate.setText("0");
                                     }
 
-                                    if (color!=null && !color.isEmpty() && color.trim().length() > 0){
+                                    /*if (color!=null && !color.isEmpty() && color.trim().length() > 0){
                                         tvProductColor.setText(color);
                                     }else {
+                                        tvProductColor.setText("NA");
+                                    }*/
+
+                                    List<String> allColor = Arrays.asList(color.split("\\s*,\\s*"));
+                                    rgColor.setOrientation(LinearLayout.HORIZONTAL);
+                                    Typeface font = Typeface.createFromAsset(getAssets(), "share_regular.otf");
+
+                                    if (color!=null && !color.isEmpty() && color.trim().length() > 0){
+                                        rgColor.setVisibility(View.VISIBLE);
+                                        tvProductColor.setVisibility(View.GONE);
+                                        for (int i = 0; i < allColor.size(); i++) {
+                                            RadioButton rbColor = new RadioButton(GrabOfferActivity.this);
+                                            rbColor.setText(allColor.get(i)+"");
+                                            rbColor.setTypeface(font);
+                                            rbColor.setTextColor(Color.parseColor("#5c5c5c"));
+                                            rgColor.addView(rbColor);
+                                        }
+                                    }else {
+                                        rgColor.setVisibility(View.GONE);
+                                        tvProductColor.setVisibility(View.VISIBLE);
                                         tvProductColor.setText("NA");
                                     }
 

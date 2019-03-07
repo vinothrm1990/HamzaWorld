@@ -76,7 +76,7 @@ public class HomeActivity extends AppCompatActivity implements InternetConnectiv
     Menu menu;
     UberProgressView progress;
     HashMap<String, String> map, map1;
-    NetworkImageView nivBanner1, nivBanner2;
+    NetworkImageView nivBanner1, nivBanner2, nivBanner3;
     long diff, oldLong, newLong;
     TextView timer;
     LinearLayout offerLayout;
@@ -151,6 +151,7 @@ public class HomeActivity extends AppCompatActivity implements InternetConnectiv
         offerLayout = findViewById(R.id.offer_layout);
         nivBanner1 = findViewById(R.id.banner1);
         nivBanner2 = findViewById(R.id.banner2);
+        nivBanner3 = findViewById(R.id.banner3);
 
         rvCategory = findViewById(R.id.rv_home_cat);
         categoryList = new ArrayList<>();
@@ -612,6 +613,10 @@ public class HomeActivity extends AppCompatActivity implements InternetConnectiv
                                     imageLoader.get(Helper.BANNER_URL + bannerList.get(1), ImageLoader.getImageListener(nivBanner2, R.drawable.image_preview, R.drawable.image_alert));
                                     nivBanner2.setImageUrl(Helper.BANNER_URL + bannerList.get(1), imageLoader);
                                     nivBanner2.setScaleType(NetworkImageView.ScaleType.FIT_XY);
+
+                                    imageLoader.get(Helper.BANNER_URL + bannerList.get(2), ImageLoader.getImageListener(nivBanner3, R.drawable.image_preview, R.drawable.image_alert));
+                                    nivBanner3.setImageUrl(Helper.BANNER_URL + bannerList.get(2), imageLoader);
+                                    nivBanner3.setScaleType(NetworkImageView.ScaleType.FIT_XY);
 
                                 }else if (jsonObject.getString("status")
                                         .equalsIgnoreCase("empty")){
