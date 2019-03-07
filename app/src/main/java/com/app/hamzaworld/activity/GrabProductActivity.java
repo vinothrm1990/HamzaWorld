@@ -134,7 +134,7 @@ public class GrabProductActivity extends AppCompatActivity implements InternetCo
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setCustomView(title);
-
+        
         rgColor = findViewById(R.id.radio_color);
         progress = findViewById(R.id.gproduct_progress);
         viewPager = findViewById(R.id.slide_pager);
