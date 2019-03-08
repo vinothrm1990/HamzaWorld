@@ -21,7 +21,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -42,8 +41,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.hamzaworld.R;
+import com.app.hamzaworld.adapter.ColorAdapter;
 import com.app.hamzaworld.adapter.DetailAdapter;
 import com.app.hamzaworld.adapter.ReviewAdapter;
+import com.app.hamzaworld.adapter.SizeAdapter;
+import com.app.hamzaworld.data.AllColor;
 import com.app.hamzaworld.other.HamzaWorld;
 import com.app.hamzaworld.other.Helper;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -73,7 +75,9 @@ public class GrabProductActivity extends AppCompatActivity implements InternetCo
     InternetAvailabilityChecker availabilityChecker;
     UberProgressView progress;
     Menu menu;
+    LinearLayout colorLayout, sizeLayout;
     String id, product;
+    ArrayList<AllColor> colorList;
     Button btnSave, btnCart;
     ArrayList<HashMap<String, String>> reviewList;
     HashMap<String, String> map;
@@ -85,11 +89,14 @@ public class GrabProductActivity extends AppCompatActivity implements InternetCo
     private static int NUM_PAGES = 0;
     private static int currentPage = 0;
     RecyclerView rvReview;
+    SizeAdapter sizeAdapter;
+    ColorAdapter colorAdapter;
     ReviewAdapter reviewAdapter;
     RecyclerView.LayoutManager layoutManager;
     ScrollView detailLayout;
     LinearLayout emptyLayout;
-    RadioGroup rgColor;
+    RadioGroup rgColor, rgSize;
+    RecyclerView rvColor, rvSize;
     String cus_id, b_id, b_name, b_mobile;
     TextView tvName, tvPrice, tvCrossPrice, tvRate, tvTabProduct, tvTabDetail, tvTabReview,
             tvProductColor, tvProductSize, tvStock, tvDetailCategory, tvDetailBrand, tvDetailDesc;
@@ -99,6 +106,7 @@ public class GrabProductActivity extends AppCompatActivity implements InternetCo
     String GET_CART_FLAG_URL = Helper.BASE_URL + Helper.GET_CART_FLAG;
     String GET_BAG_FLAG_URL = Helper.BASE_URL + Helper.GET_WISH_FLAG;
     String BAG_URL = Helper.BASE_URL + Helper.ADD_REMOVE_WISHLIST;
+    String SIZE_URL = Helper.BASE_URL + Helper.GET_SIZE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,8 +142,11 @@ public class GrabProductActivity extends AppCompatActivity implements InternetCo
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setCustomView(title);
-        
-        rgColor = findViewById(R.id.radio_color);
+
+        colorLayout = findViewById(R.id.color_layout);
+        sizeLayout = findViewById(R.id.size_layout);
+        rvColor = findViewById(R.id.rv_radio_color);
+        rvSize = findViewById(R.id.rv_radio_size);
         progress = findViewById(R.id.gproduct_progress);
         viewPager = findViewById(R.id.slide_pager);
         pageIndicator = findViewById(R.id.slide_indicator);
@@ -166,6 +177,19 @@ public class GrabProductActivity extends AppCompatActivity implements InternetCo
         detailLayout.setVisibility(View.GONE);
         getDetail(id);
 
+        /*sizeList =new ArrayList<>();
+        sizeAdapter = new SizeAdapter(this, sizeList);
+        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true);
+        rvSize.setHasFixedSize(true);
+        rvSize.setLayoutManager(layoutManager);*/
+
+        colorList =new ArrayList<>();
+        colorAdapter = new ColorAdapter(this, colorList);
+        layoutManager = new LinearLayoutManager(this);
+        rvColor.setHasFixedSize(true);
+        rvColor.setLayoutManager(layoutManager);
+
+
         String cusid = Prefs.getString("mobile", "");
 
         if (cusid!=null && !cusid.isEmpty()){
@@ -192,9 +216,9 @@ public class GrabProductActivity extends AppCompatActivity implements InternetCo
 
                 tvTabProduct.setTextColor(getResources().getColor(R.color.colorWhite));
                 tvTabProduct.setBackgroundColor(getResources().getColor(R.color.colorOrange));
-                tvTabDetail.setTextColor(getResources().getColor(R.color.colorAccent));
+                tvTabDetail.setTextColor(getResources().getColor(R.color.colorGrey));
                 tvTabDetail.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
-                tvTabReview.setTextColor(getResources().getColor(R.color.colorAccent));
+                tvTabReview.setTextColor(getResources().getColor(R.color.colorGrey));
                 tvTabReview.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
 
                 tabProductLayout.setVisibility(View.VISIBLE);
@@ -210,9 +234,9 @@ public class GrabProductActivity extends AppCompatActivity implements InternetCo
 
                 tvTabDetail.setTextColor(getResources().getColor(R.color.colorWhite));
                 tvTabDetail.setBackgroundColor(getResources().getColor(R.color.colorOrange));
-                tvTabProduct.setTextColor(getResources().getColor(R.color.colorAccent));
+                tvTabProduct.setTextColor(getResources().getColor(R.color.colorGrey));
                 tvTabProduct.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
-                tvTabReview.setTextColor(getResources().getColor(R.color.colorAccent));
+                tvTabReview.setTextColor(getResources().getColor(R.color.colorGrey));
                 tvTabReview.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
 
                 tabDetailLayout.setVisibility(View.VISIBLE);
@@ -229,9 +253,9 @@ public class GrabProductActivity extends AppCompatActivity implements InternetCo
 
                 tvTabReview.setTextColor(getResources().getColor(R.color.colorWhite));
                 tvTabReview.setBackgroundColor(getResources().getColor(R.color.colorOrange));
-                tvTabDetail.setTextColor(getResources().getColor(R.color.colorAccent));
+                tvTabDetail.setTextColor(getResources().getColor(R.color.colorGrey));
                 tvTabDetail.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
-                tvTabProduct.setTextColor(getResources().getColor(R.color.colorAccent));
+                tvTabProduct.setTextColor(getResources().getColor(R.color.colorGrey));
                 tvTabProduct.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
 
                 tabReviewLayout.setVisibility(View.VISIBLE);
@@ -293,6 +317,7 @@ public class GrabProductActivity extends AppCompatActivity implements InternetCo
                 }
             }
         });
+
 
     }
 
@@ -903,6 +928,7 @@ public class GrabProductActivity extends AppCompatActivity implements InternetCo
                                     JSONArray array = new JSONArray(data);
                                     JSONObject object = array.getJSONObject(0);
 
+                                    final String id = object.getString("barcode_id");
                                     String category = object.getString("sub_product");
                                     String brand = object.getString("model_name");
                                     String product = object.getString("product");
@@ -963,37 +989,85 @@ public class GrabProductActivity extends AppCompatActivity implements InternetCo
                                         tvRate.setText("0");
                                     }
 
-                                    /*if (color!=null && !color.isEmpty() && color.trim().length() > 0){
-                                        tvProductColor.setText(color);
+                                    Prefs.putString("barid", id);
+                                    List<String> sepColor = Arrays.asList(color.split("\\s*,\\s*"));
+                                   /* rgColor.setOrientation(LinearLayout.HORIZONTAL);
+                                    Typeface font = Typeface.createFromAsset(getAssets(), "share_regular.otf");
+
+                                    ColorStateList colorStateList = new ColorStateList(
+                                            new int[][]{
+
+                                                    new int[]{-android.R.attr.state_enabled},
+                                                    new int[]{android.R.attr.state_enabled}
+                                            },
+                                            new int[] {
+
+                                                    getResources().getColor(R.color.colorRed),
+                                                    getResources().getColor(R.color.colorRed)
+
+
+                                            }
+                                    );
+
+                                    if (color!=null && !color.isEmpty() && color.trim().length() > 0){
+                                        colorLayout.setVisibility(View.VISIBLE);
+                                        tvProductColor.setVisibility(View.GONE);
+
+                                        for (int i = 0; i < allColor.size(); i++) {
+                                            rbColor = new RadioButton(GrabProductActivity.this);
+                                            rbColor.setText(allColor.get(i)+"");
+                                            rbColor.setTypeface(font);
+                                            rbColor.setTextColor(AllColor.parseColor("#5c5c5c"));
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                                rbColor.setButtonTintList(colorStateList);
+                                            }
+                                            rgColor.addView(rbColor);
+                                            rbColor.setChecked(true);
+                                        }
+
+                                        int colorId = rgColor.getCheckedRadioButtonId();
+                                        rbColor = findViewById(colorId);
+
+                                        if (colorId != -1){
+                                            String defcolor = String.valueOf(rbColor.getText());
+                                            getSize(id, defcolor);
+                                        }
+
+                                        rgColor.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                                            @Override
+                                            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                                                rbColor = findViewById(checkedId);
+                                                String color = String.valueOf(rbColor.getText());
+                                                getSize(id, color);
+
+
+                                                //FBToast.infoToast(GrabProductActivity.this, String.valueOf(rbColor.getText()), FBToast.LENGTH_SHORT);
+                                            }
+                                        });
+
+
                                     }else {
+                                        colorLayout.setVisibility(View.GONE);
+                                        tvProductColor.setVisibility(View.VISIBLE);
                                         tvProductColor.setText("NA");
                                     }*/
 
-                                    List<String> allColor = Arrays.asList(color.split("\\s*,\\s*"));
-                                    rgColor.setOrientation(LinearLayout.HORIZONTAL);
-                                    Typeface font = Typeface.createFromAsset(getAssets(), "share_regular.otf");
-
-                                    if (color!=null && !color.isEmpty() && color.trim().length() > 0){
-                                        rgColor.setVisibility(View.VISIBLE);
+                                    if (color!=null && !color.isEmpty() && color.trim().length() > 0) {
+                                        colorLayout.setVisibility(View.VISIBLE);
                                         tvProductColor.setVisibility(View.GONE);
-                                        for (int i = 0; i < allColor.size(); i++) {
-                                            RadioButton rbColor = new RadioButton(GrabProductActivity.this);
-                                            rbColor.setText(allColor.get(i)+"");
-                                            rbColor.setTypeface(font);
-                                            rbColor.setTextColor(Color.parseColor("#5c5c5c"));
-                                            rgColor.addView(rbColor);
+                                        colorList.clear();
+                                        for (int i = 0; i < sepColor.size(); i++) {
+                                            colorList.add(new AllColor(sepColor.get(i)+""));
                                         }
+                                        colorAdapter = new ColorAdapter(GrabProductActivity.this, colorList);
+                                        rvColor.setAdapter(colorAdapter);
                                     }else {
-                                        rgColor.setVisibility(View.GONE);
+                                        colorLayout.setVisibility(View.GONE);
                                         tvProductColor.setVisibility(View.VISIBLE);
                                         tvProductColor.setText("NA");
                                     }
 
-                                    if (size!=null && !size.isEmpty() && size.trim().length() > 0){
-                                        tvProductSize.setText(size);
-                                    }else {
-                                        tvProductSize.setText("NA");
-                                    }
 
                                     if (!quantity.equalsIgnoreCase("0")){
                                         tvStock.setText("In Stock");
@@ -1090,6 +1164,150 @@ public class GrabProductActivity extends AppCompatActivity implements InternetCo
         RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         request.setRetryPolicy(policy);
         queue.add(request);
+    }
+
+    private void getSize(final String id, final String color) {
+
+        progress.animate();
+        progress.setVisibility(View.VISIBLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        StringRequest request = new StringRequest(Request.Method.POST, SIZE_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(response);
+                            if (jsonObject != null){
+
+                                if (jsonObject.getString("status")
+                                        .equalsIgnoreCase("success")){
+                                    detailLayout.setVisibility(View.VISIBLE);
+                                    progress.setVisibility(View.GONE);
+                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                                    String data = jsonObject.getString("data");
+                                    JSONArray array = new JSONArray(data);
+
+
+                                    for (int i = 0; i < array.length(); i++) {
+
+                                        JSONObject object = array.getJSONObject(i);
+
+                                        //sizeList = new ArrayList<>();
+
+                                        String size =  object.getString("size");
+
+                                       /* sizeList.add(size);*/
+
+                                    }
+
+                                    /*if (!sizeList.isEmpty()){
+                                        sizeLayout.setVisibility(View.VISIBLE);
+                                        tvProductSize.setVisibility(View.GONE);
+                                        for (int j = 0; j < sizeList.size(); j++) {
+
+
+
+                                        }
+
+                                    }else {
+                                        sizeLayout.setVisibility(View.GONE);
+                                        tvProductSize.setVisibility(View.VISIBLE);
+                                        tvProductSize.setText("NA");
+                                    }*/
+
+
+                                }else if (jsonObject.getString("status")
+                                        .equalsIgnoreCase("empty")){
+                                    progress.setVisibility(View.GONE);
+                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                                    sizeLayout.setVisibility(View.GONE);
+                                    tvProductSize.setVisibility(View.VISIBLE);
+                                    tvProductSize.setText("NA");
+
+                                }
+                                else if (jsonObject.getString("status")
+                                        .equalsIgnoreCase("failed")){
+                                    progress.setVisibility(View.GONE);
+                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                                    FBToast.errorToast(GrabProductActivity.this, jsonObject.getString("message"), FBToast.LENGTH_SHORT);
+                                }
+                            }else {
+                                progress.setVisibility(View.GONE);
+                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                                FBToast.errorToast(GrabProductActivity.this, "Something went wrong", FBToast.LENGTH_SHORT);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            progress.setVisibility(View.GONE);
+                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                            FBToast.errorToast(GrabProductActivity.this, e.getMessage(), FBToast.LENGTH_SHORT);
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        progress.setVisibility(View.GONE);
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                        String message = null;
+
+                        if (error instanceof NetworkError){
+                            message = "Can't Connect to Network!";
+                        }else if (error instanceof ServerError){
+                            message = "Server could not be Found!";
+                        }else if (error instanceof AuthFailureError){
+                            message = "Can't Connect to Network!";
+                        }else if (error instanceof ParseError){
+                            message = "Parsing Error!";
+                        }else if (error instanceof NoConnectionError){
+                            message = "Can't connect to Network!";
+                        }else if (error instanceof TimeoutError){
+                            message = "Connection Timeout!";
+                        }
+                        AlertDialog.Builder builder = new AlertDialog.Builder(GrabProductActivity.this);
+                        AlertDialog alertDialog = builder.create();
+                        builder.setTitle("NETWORK ERROR")
+                                .setMessage(message)
+                                .setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        finish();
+                                        startActivity(getIntent());
+                                    }
+                                })
+                                .setCancelable(false);
+                        alertDialog.show();
+                        FBToast.errorToast(GrabProductActivity.this, message, FBToast.LENGTH_SHORT);
+                    }
+                })
+        {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("id", id);
+                params.put("color", color);
+                return params;
+            }
+        };
+        RequestQueue queue = Volley.newRequestQueue(GrabProductActivity.this);
+        int socketTimeout = 30000;
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        request.setRetryPolicy(policy);
+        queue.add(request);
+
     }
 
     @Override

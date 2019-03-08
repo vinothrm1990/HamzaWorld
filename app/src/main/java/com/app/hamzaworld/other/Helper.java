@@ -54,6 +54,7 @@ public class Helper {
     public static String GENERATE_OTP = "verify_mobile.php";
     public static String VERIFY_OTP = "verify_otp.php";
     public static String PAYMENT_DETAIL = "payment_detail.php";
+    public static String GET_SIZE = "get_size.php";
 
     public static String cart="0";
     public static String bag="0";

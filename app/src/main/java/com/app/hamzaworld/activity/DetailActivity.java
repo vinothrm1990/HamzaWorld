@@ -3,10 +3,12 @@ package com.app.hamzaworld.activity;
 import android.app.ActionBar;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
+import android.os.Build;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -94,6 +96,7 @@ public class DetailActivity extends AppCompatActivity implements InternetConnect
     TextView tvName, tvPrice, tvCrossPrice, tvRate, tvTabProduct, tvTabDetail, tvTabReview,
             tvProductColor, tvProductSize, tvStock, tvDetailCategory, tvDetailBrand, tvDetailDesc;
     RadioGroup rgColor;
+    RadioButton rbColor;
     String DETAIL_URL = Helper.BASE_URL + Helper.GET_DETAIL;
     String REVIEW_URL = Helper.BASE_URL + Helper.GET_RATING;
     String CART_URL = Helper.BASE_URL + Helper.ADD_REMOVE_CART;
@@ -969,21 +972,50 @@ public class DetailActivity extends AppCompatActivity implements InternetConnect
                                     rgColor.setOrientation(LinearLayout.HORIZONTAL);
                                     Typeface font = Typeface.createFromAsset(getAssets(), "share_regular.otf");
 
+                                    ColorStateList colorStateList = new ColorStateList(
+                                            new int[][]{
+
+                                                    new int[]{-android.R.attr.state_enabled},
+                                                    new int[]{android.R.attr.state_enabled}
+                                            },
+                                            new int[] {
+
+                                                    getResources().getColor(R.color.colorGreen),
+                                                    getResources().getColor(R.color.colorGreen)
+
+
+                                            }
+                                    );
+
                                     if (color!=null && !color.isEmpty() && color.trim().length() > 0){
                                         rgColor.setVisibility(View.VISIBLE);
                                         tvProductColor.setVisibility(View.GONE);
+
                                         for (int i = 0; i < allColor.size(); i++) {
                                             RadioButton rbColor = new RadioButton(DetailActivity.this);
                                             rbColor.setText(allColor.get(i)+"");
                                             rbColor.setTypeface(font);
                                             rbColor.setTextColor(Color.parseColor("#5c5c5c"));
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                                rbColor.setButtonTintList(colorStateList);
+                                            }
                                             rgColor.addView(rbColor);
+                                            rbColor.setChecked(true);
                                         }
                                     }else {
                                         rgColor.setVisibility(View.GONE);
                                         tvProductColor.setVisibility(View.VISIBLE);
                                         tvProductColor.setText("NA");
                                     }
+
+                                    rgColor.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                                        @Override
+                                        public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                                            rbColor = findViewById(checkedId);
+                                            FBToast.infoToast(DetailActivity.this, String.valueOf(rbColor.getText()), FBToast.LENGTH_SHORT);
+                                        }
+                                    });
 
                                     if (size!=null && !size.isEmpty() && size.trim().length() > 0){
                                         tvProductSize.setText(size);

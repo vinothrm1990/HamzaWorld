@@ -14,6 +14,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.app.hamzaworld.R;
 import com.app.hamzaworld.activity.GrabOfferActivity;
+import com.app.hamzaworld.activity.GrabProductActivity;
 import com.app.hamzaworld.other.Helper;
 import com.app.hamzaworld.other.ImageCache;
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ public class GrabProductAdapter extends RecyclerView.Adapter<GrabProductAdapter.
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(context, GrabOfferActivity.class);
+                Intent intent = new Intent(context, GrabProductActivity.class);
                 intent.putExtra("id", map.get("id"));
                 intent.putExtra("product", map.get("product"));
                 context.startActivity(intent);

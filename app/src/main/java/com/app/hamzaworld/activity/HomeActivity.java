@@ -236,7 +236,7 @@ public class HomeActivity extends AppCompatActivity implements InternetConnectiv
                                         .equalsIgnoreCase("empty")){
                                     progress.setVisibility(View.GONE);
                                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                                    timer.setText("OFFER ENDS");
+
                                 }
                                 else if (jsonObject.getString("status")
                                         .equalsIgnoreCase("failed")){
@@ -505,6 +505,7 @@ public class HomeActivity extends AppCompatActivity implements InternetConnectiv
                                     progress.setVisibility(View.GONE);
                                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                                     offerLayout.setVisibility(View.GONE);
+                                    timer.setText("OFFER ENDS");
                                     //FBToast.warningToast(HomeActivity.this, jsonObject.getString("message"), FBToast.LENGTH_SHORT);
                                 }
                                 else if (jsonObject.getString("status")
