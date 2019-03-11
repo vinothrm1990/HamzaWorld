@@ -3,12 +3,10 @@ package com.app.hamzaworld.activity;
 import android.app.ActionBar;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
-import android.os.Build;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -23,8 +21,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -44,10 +40,18 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.hamzaworld.R;
+import com.app.hamzaworld.adapter.GrabOfferColorAdapter;
+import com.app.hamzaworld.adapter.GrabOfferSizeAdapter;
+import com.app.hamzaworld.adapter.GrabProductColorAdapter;
 import com.app.hamzaworld.adapter.DetailAdapter;
 import com.app.hamzaworld.adapter.ReviewAdapter;
+import com.app.hamzaworld.adapter.GrabProductSizeAdapter;
+import com.app.hamzaworld.data.AllColor;
+import com.app.hamzaworld.data.AllSize;
 import com.app.hamzaworld.other.HamzaWorld;
 import com.app.hamzaworld.other.Helper;
+import com.app.hamzaworld.other.OnColorChangeListener;
+import com.app.hamzaworld.other.OnSizeChangeListener;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.tfb.fbtoast.FBToast;
 import com.treebo.internetavailabilitychecker.InternetAvailabilityChecker;
@@ -63,20 +67,25 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 import in.ishankhanna.UberProgressView;
 import spencerstudios.com.bungeelib.Bungee;
 
-public class GrabOfferActivity extends AppCompatActivity implements InternetConnectivityListener {
+public class GrabOfferActivity extends AppCompatActivity implements InternetConnectivityListener,
+        OnColorChangeListener, OnSizeChangeListener {
 
     InternetAvailabilityChecker availabilityChecker;
     UberProgressView progress;
     Menu menu;
     String id, product;
-    Button btnSave, btnCart;
+    public static Button btnSave, btnCart;
+    ArrayList<AllColor> colorList;
+    ArrayList<AllSize> sizeList;
     ArrayList<HashMap<String, String>> reviewList;
     HashMap<String, String> map;
     LinearLayout tabProductLayout, tabDetailLayout, tabReviewLayout, btnLayout, reviewLayout,
@@ -86,13 +95,13 @@ public class GrabOfferActivity extends AppCompatActivity implements InternetConn
     ViewPager viewPager;
     private static int NUM_PAGES = 0;
     private static int currentPage = 0;
-    RecyclerView rvReview;
+    RecyclerView rvReview, rvColor, rvSize;
     ReviewAdapter reviewAdapter;
+    GrabOfferColorAdapter colorAdapter;
+    GrabOfferSizeAdapter sizeAdapter;
     RecyclerView.LayoutManager layoutManager;
     ScrollView detailLayout;
-    LinearLayout emptyLayout;
-    RadioGroup rgColor;
-    RadioButton rbColor;
+    LinearLayout emptyLayout, colorLayout, sizeLayout;
     String cus_id, b_id, b_name, b_mobile;
     TextView tvName, tvPrice, tvCrossPrice, tvRate, tvTabProduct, tvTabDetail, tvTabReview,
             tvProductColor, tvProductSize, tvStock, tvDetailCategory, tvDetailBrand, tvDetailDesc;
@@ -102,6 +111,7 @@ public class GrabOfferActivity extends AppCompatActivity implements InternetConn
     String GET_CART_FLAG_URL = Helper.BASE_URL + Helper.GET_CART_FLAG;
     String GET_BAG_FLAG_URL = Helper.BASE_URL + Helper.GET_WISH_FLAG;
     String BAG_URL = Helper.BASE_URL + Helper.ADD_REMOVE_WISHLIST;
+    String SIZE_URL = Helper.BASE_URL + Helper.GET_SIZE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,7 +148,10 @@ public class GrabOfferActivity extends AppCompatActivity implements InternetConn
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setCustomView(title);
 
-        rgColor = findViewById(R.id.radio_color);
+        colorLayout = findViewById(R.id.color_layout);
+        sizeLayout = findViewById(R.id.size_layout);
+        rvColor = findViewById(R.id.rv_radio_color);
+        rvSize = findViewById(R.id.rv_radio_size);
         progress = findViewById(R.id.goffer_progress);
         viewPager = findViewById(R.id.slide_pager);
         pageIndicator = findViewById(R.id.slide_indicator);
@@ -169,6 +182,18 @@ public class GrabOfferActivity extends AppCompatActivity implements InternetConn
         detailLayout.setVisibility(View.GONE);
         getDetail(id);
 
+        sizeList =new ArrayList<>();
+        sizeAdapter = new GrabOfferSizeAdapter(this, sizeList);
+        layoutManager = new LinearLayoutManager(this);
+        rvSize.setHasFixedSize(true);
+        rvSize.setLayoutManager(layoutManager);
+
+        colorList =new ArrayList<>();
+        colorAdapter = new GrabOfferColorAdapter(this, colorList);
+        layoutManager = new LinearLayoutManager(this);
+        rvColor.setHasFixedSize(true);
+        rvColor.setLayoutManager(layoutManager);
+
         String cusid = Prefs.getString("mobile", "");
 
         if (cusid!=null && !cusid.isEmpty()){
@@ -195,9 +220,9 @@ public class GrabOfferActivity extends AppCompatActivity implements InternetConn
 
                 tvTabProduct.setTextColor(getResources().getColor(R.color.colorWhite));
                 tvTabProduct.setBackgroundColor(getResources().getColor(R.color.colorOrange));
-                tvTabDetail.setTextColor(getResources().getColor(R.color.colorAccent));
+                tvTabDetail.setTextColor(getResources().getColor(R.color.colorGrey));
                 tvTabDetail.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
-                tvTabReview.setTextColor(getResources().getColor(R.color.colorAccent));
+                tvTabReview.setTextColor(getResources().getColor(R.color.colorGrey));
                 tvTabReview.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
 
                 tabProductLayout.setVisibility(View.VISIBLE);
@@ -213,9 +238,9 @@ public class GrabOfferActivity extends AppCompatActivity implements InternetConn
 
                 tvTabDetail.setTextColor(getResources().getColor(R.color.colorWhite));
                 tvTabDetail.setBackgroundColor(getResources().getColor(R.color.colorOrange));
-                tvTabProduct.setTextColor(getResources().getColor(R.color.colorAccent));
+                tvTabProduct.setTextColor(getResources().getColor(R.color.colorGrey));
                 tvTabProduct.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
-                tvTabReview.setTextColor(getResources().getColor(R.color.colorAccent));
+                tvTabReview.setTextColor(getResources().getColor(R.color.colorGrey));
                 tvTabReview.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
 
                 tabDetailLayout.setVisibility(View.VISIBLE);
@@ -231,9 +256,9 @@ public class GrabOfferActivity extends AppCompatActivity implements InternetConn
 
                 tvTabReview.setTextColor(getResources().getColor(R.color.colorWhite));
                 tvTabReview.setBackgroundColor(getResources().getColor(R.color.colorOrange));
-                tvTabDetail.setTextColor(getResources().getColor(R.color.colorAccent));
+                tvTabDetail.setTextColor(getResources().getColor(R.color.colorGrey));
                 tvTabDetail.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
-                tvTabProduct.setTextColor(getResources().getColor(R.color.colorAccent));
+                tvTabProduct.setTextColor(getResources().getColor(R.color.colorGrey));
                 tvTabProduct.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
 
                 tabReviewLayout.setVisibility(View.VISIBLE);
@@ -735,6 +760,8 @@ public class GrabOfferActivity extends AppCompatActivity implements InternetConn
                 params.put("bname", b_name);
                 params.put("bmobile", b_mobile);
                 params.put("cartid", String.valueOf(rand_int));
+                params.put("color", Prefs.getString("grabproductcolor", null));
+                params.put("size", Prefs.getString("grabproductsize", null));
                 return params;
             }
         };
@@ -965,64 +992,35 @@ public class GrabOfferActivity extends AppCompatActivity implements InternetConn
                                         tvRate.setText("0");
                                     }
 
-                                    /*if (color!=null && !color.isEmpty() && color.trim().length() > 0){
-                                        tvProductColor.setText(color);
-                                    }else {
-                                        tvProductColor.setText("NA");
-                                    }*/
+                                    Prefs.putString("barid", id);
+                                    List<String> sepColor = Arrays.asList(color.split("\\s*,\\s*"));
 
-                                    List<String> allColor = Arrays.asList(color.split("\\s*,\\s*"));
-                                    rgColor.setOrientation(LinearLayout.HORIZONTAL);
-                                    Typeface font = Typeface.createFromAsset(getAssets(), "share_regular.otf");
-
-                                    ColorStateList colorStateList = new ColorStateList(
-                                            new int[][]{
-
-                                                    new int[]{-android.R.attr.state_enabled},
-                                                    new int[]{android.R.attr.state_enabled}
-                                            },
-                                            new int[] {
-
-                                                    getResources().getColor(R.color.colorGreen),
-                                                    getResources().getColor(R.color.colorGreen)
-
-
-                                            }
-                                    );
-
-                                    if (color!=null && !color.isEmpty() && color.trim().length() > 0){
-                                        rgColor.setVisibility(View.VISIBLE);
+                                    if (color!=null && !color.isEmpty() && color.trim().length() > 0) {
+                                        colorLayout.setVisibility(View.VISIBLE);
                                         tvProductColor.setVisibility(View.GONE);
-                                        for (int i = 0; i < allColor.size(); i++) {
-                                            rbColor = new RadioButton(GrabOfferActivity.this);
-                                            rbColor.setText(allColor.get(i)+"");
-                                            rbColor.setTypeface(font);
-                                            rbColor.setTextColor(Color.parseColor("#5c5c5c"));
-                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                                rbColor.setButtonTintList(colorStateList);
-                                            }
-                                            rgColor.addView(rbColor);
-                                            rbColor.setChecked(true);
+                                        sizeLayout.setVisibility(View.GONE);
+                                        tvProductSize.setVisibility(View.VISIBLE);
+                                        tvProductSize.setText("Select any one of the Available Color");
+                                        colorList.clear();
+
+                                        for (int i = 0; i < sepColor.size(); i++) {
+
+                                            AllColor allColor = new AllColor(sepColor.get(i) + "");
+                                            colorList.add(allColor);
                                         }
+
+                                        Set<AllColor> set = new HashSet<>(colorList);
+                                        colorList.clear();
+                                        colorList.addAll(set);
+
+                                        colorAdapter = new GrabOfferColorAdapter(GrabOfferActivity.this, colorList);
+                                        rvColor.setAdapter(colorAdapter);
+                                        colorAdapter.setOnColorChangeListener(GrabOfferActivity.this, GrabOfferActivity.this);
+                                        colorAdapter.notifyDataSetChanged();
                                     }else {
-                                        rgColor.setVisibility(View.GONE);
+                                        colorLayout.setVisibility(View.GONE);
                                         tvProductColor.setVisibility(View.VISIBLE);
                                         tvProductColor.setText("NA");
-                                    }
-
-                                    rgColor.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                                        @Override
-                                        public void onCheckedChanged(RadioGroup group, int checkedId) {
-
-                                            rbColor = findViewById(checkedId);
-                                            FBToast.infoToast(GrabOfferActivity.this, String.valueOf(rbColor.getText()), FBToast.LENGTH_SHORT);
-                                        }
-                                    });
-
-                                    if (size!=null && !size.isEmpty() && size.trim().length() > 0){
-                                        tvProductSize.setText(size);
-                                    }else {
-                                        tvProductSize.setText("NA");
                                     }
 
                                     if (!quantity.equalsIgnoreCase("0")){
@@ -1120,6 +1118,129 @@ public class GrabOfferActivity extends AppCompatActivity implements InternetConn
         RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         request.setRetryPolicy(policy);
         queue.add(request);
+    }
+
+    private void getSize(final String id, final String color) {
+
+        progress.animate();
+        progress.setVisibility(View.VISIBLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        StringRequest request = new StringRequest(Request.Method.POST, SIZE_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(response);
+                            if (jsonObject != null){
+
+                                if (jsonObject.getString("status")
+                                        .equalsIgnoreCase("success")){
+                                    progress.setVisibility(View.GONE);
+                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                                    sizeLayout.setVisibility(View.VISIBLE);
+                                    tvProductSize.setVisibility(View.GONE);
+
+                                    String data = jsonObject.getString("data");
+                                    JSONArray array = new JSONArray(data);
+
+                                    sizeList.clear();
+                                    for (int i = 0; i < array.length(); i++) {
+
+                                        JSONObject object = array.getJSONObject(i);
+
+                                        String size =  object.getString("size");
+
+                                        sizeList.add(new AllSize(size));
+
+                                    }
+
+                                    sizeAdapter = new GrabOfferSizeAdapter(GrabOfferActivity.this, sizeList);
+                                    rvSize.setAdapter(sizeAdapter);
+                                    sizeAdapter.setOnSizeChangeListener(GrabOfferActivity.this, GrabOfferActivity.this);
+                                    sizeAdapter.notifyDataSetChanged();
+
+                                }else if (jsonObject.getString("status")
+                                        .equalsIgnoreCase("empty")){
+                                    progress.setVisibility(View.GONE);
+                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                                    sizeLayout.setVisibility(View.GONE);
+                                    tvProductSize.setVisibility(View.VISIBLE);
+                                    tvProductSize.setText("NA");
+
+                                    btnSave.setVisibility(View.VISIBLE);
+                                    btnCart.setVisibility(View.VISIBLE);
+
+                                }
+                                else if (jsonObject.getString("status")
+                                        .equalsIgnoreCase("failed")){
+                                    progress.setVisibility(View.GONE);
+                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                                    FBToast.errorToast(GrabOfferActivity.this, jsonObject.getString("message"), FBToast.LENGTH_SHORT);
+                                }
+                            }else {
+                                progress.setVisibility(View.GONE);
+                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                                FBToast.errorToast(GrabOfferActivity.this, "Something went wrong", FBToast.LENGTH_SHORT);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            progress.setVisibility(View.GONE);
+                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                            FBToast.errorToast(GrabOfferActivity.this, e.getMessage(), FBToast.LENGTH_SHORT);
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        progress.setVisibility(View.GONE);
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                        String message = null;
+
+                        if (error instanceof NetworkError){
+                            message = "Can't Connect to Network!";
+                        }else if (error instanceof ServerError){
+                            message = "Server could not be Found!";
+                        }else if (error instanceof AuthFailureError){
+                            message = "Can't Connect to Network!";
+                        }else if (error instanceof ParseError){
+                            message = "Parsing Error!";
+                        }else if (error instanceof NoConnectionError){
+                            message = "Can't connect to Network!";
+                        }else if (error instanceof TimeoutError){
+                            message = "Connection Timeout!";
+                        }
+                        FBToast.errorToast(GrabOfferActivity.this, message, FBToast.LENGTH_SHORT);
+                    }
+                })
+        {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("id", id);
+                params.put("color", color);
+                return params;
+            }
+        };
+        RequestQueue queue = Volley.newRequestQueue(GrabOfferActivity.this);
+        int socketTimeout = 30000;
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        request.setRetryPolicy(policy);
+        queue.add(request);
+
     }
 
     @Override
@@ -1226,5 +1347,19 @@ public class GrabOfferActivity extends AppCompatActivity implements InternetConn
     @Override
     public void onTrimMemory(int level) {
         super.onTrimMemory(level);
+    }
+
+    @Override
+    public void onColorChanged(String color) {
+
+        String bid = Prefs.getString("barid", null);
+        getSize(bid, color);
+        Prefs.putString("grabproductcolor", color);
+    }
+
+    @Override
+    public void onSizeChanged(String size) {
+
+        Prefs.putString("grabproductsize", size);
     }
 }

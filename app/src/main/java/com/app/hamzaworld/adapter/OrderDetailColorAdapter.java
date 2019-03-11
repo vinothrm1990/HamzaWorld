@@ -16,20 +16,28 @@ import android.widget.TextView;
 
 import com.app.hamzaworld.R;
 import com.app.hamzaworld.data.AllColor;
-import com.pixplicity.easyprefs.library.Prefs;
-import com.tfb.fbtoast.FBToast;
+import com.app.hamzaworld.other.OnColorChangeListener;
 
 import java.util.ArrayList;
 
-public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ViewHolder> {
+import static com.app.hamzaworld.activity.OrderDetailActivity.btnCart;
+import static com.app.hamzaworld.activity.OrderDetailActivity.btnSave;
+
+public class OrderDetailColorAdapter extends RecyclerView.Adapter<OrderDetailColorAdapter.ViewHolder> {
 
     Context context;
     ArrayList<AllColor> colorList;
-    RadioGroup rgChecked = null;
+    OnColorChangeListener mOnColorChangeListener;
+    RadioGroup lastCheckedRadioGroup = null;
 
-    public ColorAdapter(Context context, ArrayList<AllColor> colorList) {
+    public OrderDetailColorAdapter(Context context, ArrayList<AllColor> colorList) {
         this.context = context;
         this.colorList = colorList;
+    }
+
+    public void setOnColorChangeListener(Context mcontext, OnColorChangeListener onColorChangeListener) {
+        mOnColorChangeListener = onColorChangeListener;
+        context = mcontext;
     }
 
     @NonNull
@@ -46,7 +54,7 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ViewHolder> 
 
         AllColor color = colorList.get(i);
 
-        int id = (i+1)*100;
+        int id = (i+1);
 
         Typeface font = Typeface.createFromAsset(context.getAssets(), "share_regular.otf");
         ColorStateList colorStateList = new ColorStateList(
@@ -63,7 +71,7 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ViewHolder> 
 
                 }
         );
-        RadioButton rb = new RadioButton(context);
+        final RadioButton rb = new RadioButton(context);
         rb.setId(id++);
         rb.setTypeface(font);
         rb.setTextSize(16);
@@ -71,26 +79,39 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ViewHolder> 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             rb.setButtonTintList(colorStateList);
         }
+
         rb.setText(color.getColor());
         viewHolder.rgColor.addView(rb);
 
-        int colorId = viewHolder.rgColor.getCheckedRadioButtonId();
-
-        if (colorId != -1){
-
-            String defcolor = String.valueOf(rb.getText());
-            FBToast.infoToast(context,
-                    defcolor,
-                    FBToast.LENGTH_SHORT);
-
+        if (!rb.isChecked()){
+            btnCart.setVisibility(View.GONE);
+            btnSave.setVisibility(View.GONE);
         }
 
+        viewHolder.rgColor.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
 
-        String bid = Prefs.getString("barid", null);
+                RadioButton rb = radioGroup.findViewById(checkedId);
 
-        //getSize(bid, defcolor);
+                if (checkedId != -1){
 
+                    String defcolor = String.valueOf(rb.getText());
+                    if(mOnColorChangeListener != null){
+                        mOnColorChangeListener.onColorChanged(defcolor);
+                    }
+                }
 
+                if (lastCheckedRadioGroup != null && lastCheckedRadioGroup.getCheckedRadioButtonId()
+                        != radioGroup.getCheckedRadioButtonId() && lastCheckedRadioGroup.getCheckedRadioButtonId() != -1) {
+
+                    lastCheckedRadioGroup.clearCheck();
+
+                }
+                lastCheckedRadioGroup = radioGroup;
+
+            }
+        });
     }
 
     @Override
@@ -107,27 +128,6 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ViewHolder> 
             super(itemView);
             tvColor = itemView.findViewById(R.id.tv_color);
             rgColor = itemView.findViewById(R.id.radio_color);
-
-            rgColor.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(RadioGroup radioGroup, int i) {
-
-                    if (rgChecked != null
-                            && rgChecked.getCheckedRadioButtonId()
-                            != radioGroup.getCheckedRadioButtonId()
-                            && rgChecked.getCheckedRadioButtonId() != -1) {
-                        rgChecked.clearCheck();
-
-
-                       /* FBToast.infoToast(context,
-                                "Radio button clicked " + radioGroup.getCheckedRadioButtonId(),
-                                FBToast.LENGTH_SHORT);*/
-
-                    }
-                    rgChecked = radioGroup;
-
-                }
-            });
         }
     }
 }

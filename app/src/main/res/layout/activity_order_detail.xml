@@ -205,11 +205,19 @@
                             android:text=""
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
-                        <RadioGroup
+                        <LinearLayout
                             android:visibility="gone"
-                            android:id="@+id/radio_color"
+                            android:id="@+id/color_layout"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content">
+                            <android.support.v7.widget.RecyclerView
+                                android:layout_width="match_parent"
+                                android:clipToPadding="false"
+                                android:scrollbars="vertical"
+                                android:padding="5dp"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/rv_radio_color"/>
+                        </LinearLayout>
                     </LinearLayout>
                     <LinearLayout
                         android:layout_marginTop="20dp"
@@ -223,6 +231,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                         <TextView
+                            android:visibility="visible"
                             android:id="@+id/tab_product_size"
                             android:layout_marginTop="10dp"
                             android:fontFamily="@font/share_regular"
@@ -230,6 +239,19 @@
                             android:text=""
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
+                        <LinearLayout
+                            android:visibility="gone"
+                            android:id="@+id/size_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <android.support.v7.widget.RecyclerView
+                                android:layout_width="match_parent"
+                                android:clipToPadding="false"
+                                android:scrollbars="vertical"
+                                android:padding="5dp"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/rv_radio_size"/>
+                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
