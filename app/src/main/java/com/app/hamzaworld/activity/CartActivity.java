@@ -189,6 +189,8 @@ public class CartActivity extends AppCompatActivity implements InternetConnectiv
                                         String qty =  object.getString("c_qty");
                                         String cartid =  object.getString("cart_id");
                                         String pur_date =  object.getString("purchase_date");
+                                        String color =  object.getString("color");
+                                        String size =  object.getString("size");
 
                                         map.put("id", id);
                                         map.put("brand", brand);
@@ -202,6 +204,8 @@ public class CartActivity extends AppCompatActivity implements InternetConnectiv
                                         map.put("quantity", qty);
                                         map.put("cartid", cartid);
                                         map.put("pdate", pur_date);
+                                        map.put("color", color);
+                                        map.put("size", size);
 
                                         cartList.add(map);
 

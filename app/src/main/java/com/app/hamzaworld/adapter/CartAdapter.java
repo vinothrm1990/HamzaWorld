@@ -80,6 +80,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
         myViewHolder.tvPPrice.setText( "₹"+map.get("price"));
         myViewHolder.tvPCPrice.setText( "₹"+map.get("cross_price"));
         myViewHolder.tvPCPrice.setPaintFlags(myViewHolder.tvPCPrice.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+        myViewHolder.tvColor.setText(map.get("color"));
+        myViewHolder.tvSize.setText(map.get("size"));
 
         imageLoader = ImageCache.getInstance(context).getImageLoader();
         imageLoader.get(Helper.IMAGE_URL + map.get("pro_image"), ImageLoader.getImageListener(myViewHolder.ivImage, R.drawable.image_preview, R.drawable.image_alert));
@@ -161,7 +163,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvPName, tvPPrice, tvPCPrice, tvTotalPrice;
+        TextView tvPName, tvPPrice, tvPCPrice, tvTotalPrice, tvColor, tvSize;
         Spinner spQty;
         NetworkImageView ivImage;
         Button btnSave, btnRemove;
@@ -169,6 +171,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            tvColor = itemView.findViewById(R.id.cart_tv_color);
+            tvSize = itemView.findViewById(R.id.cart_tv_size);
             tvPName = itemView.findViewById(R.id.cart_pro_name);
             tvPPrice = itemView.findViewById(R.id.cart_price);
             tvPCPrice = itemView.findViewById(R.id.cart_cross_price);

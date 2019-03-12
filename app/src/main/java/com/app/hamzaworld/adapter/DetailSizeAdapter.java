@@ -20,8 +20,8 @@ import com.app.hamzaworld.other.OnSizeChangeListener;
 
 import java.util.ArrayList;
 
-import static com.app.hamzaworld.activity.DetailActivity.btnCart;
-import static com.app.hamzaworld.activity.DetailActivity.btnSave;
+import static com.app.hamzaworld.activity.DetailActivity.btnLayout;
+
 
 public class DetailSizeAdapter extends RecyclerView.Adapter<DetailSizeAdapter.ViewHolder> {
 
@@ -84,8 +84,8 @@ public class DetailSizeAdapter extends RecyclerView.Adapter<DetailSizeAdapter.Vi
         viewHolder.rgSize.addView(rb);
 
         if (!rb.isChecked()){
-            btnCart.setVisibility(View.GONE);
-            btnSave.setVisibility(View.GONE);
+            btnLayout.setVisibility(View.GONE);
+
         }
 
         viewHolder.rgSize.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -98,8 +98,8 @@ public class DetailSizeAdapter extends RecyclerView.Adapter<DetailSizeAdapter.Vi
                     if(mOnSizeChangeListener != null){
                         mOnSizeChangeListener.onSizeChanged(defsize);
                     }
-                    btnCart.setVisibility(View.VISIBLE);
-                    btnSave.setVisibility(View.VISIBLE);
+                    btnLayout.setVisibility(View.VISIBLE);
+
 
                 }
 

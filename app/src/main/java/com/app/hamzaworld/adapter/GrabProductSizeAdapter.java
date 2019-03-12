@@ -17,8 +17,8 @@ import com.app.hamzaworld.R;
 import com.app.hamzaworld.data.AllSize;
 import com.app.hamzaworld.other.OnSizeChangeListener;
 import java.util.ArrayList;
-import static com.app.hamzaworld.activity.GrabProductActivity.btnCart;
-import static com.app.hamzaworld.activity.GrabProductActivity.btnSave;
+import static com.app.hamzaworld.activity.GrabProductActivity.btnLayout;
+
 
 public class GrabProductSizeAdapter extends RecyclerView.Adapter<GrabProductSizeAdapter.ViewHolder> {
 
@@ -81,8 +81,8 @@ public class GrabProductSizeAdapter extends RecyclerView.Adapter<GrabProductSize
         viewHolder.rgSize.addView(rb);
 
         if (!rb.isChecked()){
-            btnCart.setVisibility(View.GONE);
-            btnSave.setVisibility(View.GONE);
+            btnLayout.setVisibility(View.GONE);
+
         }
 
         viewHolder.rgSize.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -95,8 +95,7 @@ public class GrabProductSizeAdapter extends RecyclerView.Adapter<GrabProductSize
                     if(mOnSizeChangeListener != null){
                         mOnSizeChangeListener.onSizeChanged(defsize);
                     }
-                    btnCart.setVisibility(View.VISIBLE);
-                    btnSave.setVisibility(View.VISIBLE);
+                    btnLayout.setVisibility(View.VISIBLE);
 
                 }
 

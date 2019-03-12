@@ -13,15 +13,11 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-
 import com.app.hamzaworld.R;
 import com.app.hamzaworld.data.AllColor;
 import com.app.hamzaworld.other.OnColorChangeListener;
-
 import java.util.ArrayList;
-
-import static com.app.hamzaworld.activity.DetailActivity.btnCart;
-import static com.app.hamzaworld.activity.DetailActivity.btnSave;
+import static com.app.hamzaworld.activity.DetailActivity.btnLayout;
 
 public class DetailColorAdapter extends RecyclerView.Adapter<DetailColorAdapter.ViewHolder> {
 
@@ -84,8 +80,8 @@ public class DetailColorAdapter extends RecyclerView.Adapter<DetailColorAdapter.
         viewHolder.rgColor.addView(rb);
 
         if (!rb.isChecked()){
-            btnCart.setVisibility(View.GONE);
-            btnSave.setVisibility(View.GONE);
+            btnLayout.setVisibility(View.GONE);
+
         }
 
         viewHolder.rgColor.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

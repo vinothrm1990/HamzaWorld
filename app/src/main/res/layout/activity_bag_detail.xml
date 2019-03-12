@@ -205,19 +205,6 @@
                             android:text=""
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
-                        <LinearLayout
-                            android:visibility="gone"
-                            android:id="@+id/color_layout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-                            <android.support.v7.widget.RecyclerView
-                                android:layout_width="match_parent"
-                                android:clipToPadding="false"
-                                android:scrollbars="vertical"
-                                android:padding="5dp"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/rv_radio_color"/>
-                        </LinearLayout>
                     </LinearLayout>
                     <LinearLayout
                         android:layout_marginTop="20dp"
@@ -239,19 +226,6 @@
                             android:text=""
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
-                        <LinearLayout
-                            android:visibility="gone"
-                            android:id="@+id/size_layout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-                            <android.support.v7.widget.RecyclerView
-                                android:layout_width="match_parent"
-                                android:clipToPadding="false"
-                                android:scrollbars="vertical"
-                                android:padding="5dp"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/rv_radio_size"/>
-                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
@@ -370,7 +344,7 @@
                         android:layout_marginBottom="5dp"
                         android:layout_marginRight="5dp"
                         android:layout_weight="1"
-                        android:text="SAVE TO BAG"
+                        android:text="REMOVE FROM BAG"
                         android:textColor="#000000"
                         android:textSize="18sp"
                         android:fontFamily="@font/share_bold"

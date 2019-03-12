@@ -74,6 +74,8 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.MyViewHolder> {
         }else {
             myViewHolder.tvTRate.setText("("+map.get("trate")+")");
         }
+        myViewHolder.tvColor.setText(map.get("color"));
+        myViewHolder.tvSize.setText(map.get("size"));
         imageLoader = ImageCache.getInstance(context).getImageLoader();
         imageLoader.get(Helper.IMAGE_URL + map.get("pro_image"), ImageLoader.getImageListener(myViewHolder.ivImage, R.drawable.image_preview, R.drawable.image_alert));
         myViewHolder.ivImage.setImageUrl(Helper.IMAGE_URL + map.get("pro_image"), imageLoader);
@@ -98,10 +100,14 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.MyViewHolder> {
 
                 String proid = map.get("id");
                 String proname = map.get("product");
+                String color = map.get("color");
+                String size = map.get("size");
 
                 Intent intent = new Intent(context, BagDetailActivity.class);
                 intent.putExtra("id", proid);
                 intent.putExtra("product", proname);
+                intent.putExtra("color", color);
+                intent.putExtra("size", size);
                 context.startActivity(intent);
                 //getWishDetails(cusid, proid);
             }
@@ -115,12 +121,14 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.MyViewHolder> {
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvPName, tvPPrice, tvPCPrice, tvPrate, tvTRate;
+        TextView tvPName, tvPPrice, tvPCPrice, tvPrate, tvTRate, tvColor, tvSize;
         NetworkImageView ivImage;
         Button btnDetail, btnRemove;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            tvColor = itemView.findViewById(R.id.bag_tv_color);
+            tvSize = itemView.findViewById(R.id.bag_tv_size);
             tvPName = itemView.findViewById(R.id.bag_pro_name);
             tvPPrice = itemView.findViewById(R.id.bag_price);
             tvPCPrice = itemView.findViewById(R.id.bag_cross_price);

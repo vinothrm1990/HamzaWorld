@@ -30,6 +30,7 @@ public class Helper {
     public static String GET_PROFILE = "get_profile.php";
     public static String GET_WISHLIST = "get_wishlist.php?";
     public static String ADD_REMOVE_WISHLIST = "addremove_wishlist.php?";
+    public static String REMOVE_BAG = "delete_bag.php?";
     public static String GET_CART= "get_cart.php";
     public static String ADD_QUANTITY= "add_quantity.php?";
     public static String ADD_REMOVE_CART = "addremove_cart.php";
@@ -55,6 +56,8 @@ public class Helper {
     public static String VERIFY_OTP = "verify_otp.php";
     public static String PAYMENT_DETAIL = "payment_detail.php";
     public static String GET_SIZE = "get_size.php";
+    public static String ADD_REMOVE_BAG = "addremove_bag.php";
+    public static String GET_COLOR_SIZE_PRODUCT = "get_color_size_product.php";
 
     public static String cart="0";
     public static String bag="0";

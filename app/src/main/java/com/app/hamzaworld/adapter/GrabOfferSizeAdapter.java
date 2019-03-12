@@ -13,15 +13,12 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-
 import com.app.hamzaworld.R;
 import com.app.hamzaworld.data.AllSize;
 import com.app.hamzaworld.other.OnSizeChangeListener;
-
 import java.util.ArrayList;
+import static com.app.hamzaworld.activity.GrabOfferActivity.btnLayout;
 
-import static com.app.hamzaworld.activity.GrabOfferActivity.btnCart;
-import static com.app.hamzaworld.activity.GrabOfferActivity.btnSave;
 
 public class GrabOfferSizeAdapter extends RecyclerView.Adapter<GrabOfferSizeAdapter.ViewHolder> {
 
@@ -84,8 +81,7 @@ public class GrabOfferSizeAdapter extends RecyclerView.Adapter<GrabOfferSizeAdap
         viewHolder.rgSize.addView(rb);
 
         if (!rb.isChecked()){
-            btnCart.setVisibility(View.GONE);
-            btnSave.setVisibility(View.GONE);
+            btnLayout.setVisibility(View.GONE);
         }
 
         viewHolder.rgSize.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -98,8 +94,7 @@ public class GrabOfferSizeAdapter extends RecyclerView.Adapter<GrabOfferSizeAdap
                     if(mOnSizeChangeListener != null){
                         mOnSizeChangeListener.onSizeChanged(defsize);
                     }
-                    btnCart.setVisibility(View.VISIBLE);
-                    btnSave.setVisibility(View.VISIBLE);
+                    btnLayout.setVisibility(View.VISIBLE);
 
                 }
 

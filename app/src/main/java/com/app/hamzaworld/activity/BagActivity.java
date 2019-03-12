@@ -152,6 +152,8 @@ public class BagActivity extends AppCompatActivity implements InternetConnectivi
                                         String crossprice =  object.getString("cross_price");
                                         String prate =  object.getString("prate");
                                         String trate =  object.getString("trate");
+                                        String color =  object.getString("bcolor");
+                                        String size =  object.getString("bsize");
 
                                         map.put("id", id);
                                         map.put("category", category);
@@ -161,6 +163,8 @@ public class BagActivity extends AppCompatActivity implements InternetConnectivi
                                         map.put("cross_price", crossprice);
                                         map.put("prate", prate);
                                         map.put("trate", trate);
+                                        map.put("color", color);
+                                        map.put("size", size);
 
                                         bagList.add(map);
 

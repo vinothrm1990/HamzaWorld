@@ -83,12 +83,13 @@ public class DetailActivity extends AppCompatActivity implements InternetConnect
     UberProgressView progress;
     Menu menu;
     String id, product;
-    public static Button btnSave, btnCart;
+    Button btnSave, btnCart;
+    public static LinearLayout btnLayout;
     ArrayList<AllColor> colorList;
     ArrayList<AllSize> sizeList;
     ArrayList<HashMap<String, String>> reviewList;
     HashMap<String, String> map;
-    LinearLayout tabProductLayout, tabDetailLayout, tabReviewLayout, btnLayout, reviewLayout,
+    LinearLayout tabProductLayout, tabDetailLayout, tabReviewLayout, reviewLayout,
     emptyReviewLayout;
     DetailColorAdapter colorAdapter;
     DetailSizeAdapter sizeAdapter;
@@ -112,6 +113,7 @@ public class DetailActivity extends AppCompatActivity implements InternetConnect
     String GET_BAG_FLAG_URL = Helper.BASE_URL + Helper.GET_WISH_FLAG;
     String BAG_URL = Helper.BASE_URL + Helper.ADD_REMOVE_WISHLIST;
     String SIZE_URL = Helper.BASE_URL + Helper.GET_SIZE;
+    String GET_COLOR_SIZE_URL = Helper.BASE_URL + Helper.GET_COLOR_SIZE_PRODUCT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -229,6 +231,7 @@ public class DetailActivity extends AppCompatActivity implements InternetConnect
                 tabDetailLayout.setVisibility(View.GONE);
                 tabReviewLayout.setVisibility(View.GONE);
 
+                getDetail(id);
             }
         });
 
@@ -247,6 +250,7 @@ public class DetailActivity extends AppCompatActivity implements InternetConnect
                 tabProductLayout.setVisibility(View.GONE);
                 tabReviewLayout.setVisibility(View.GONE);
 
+                btnLayout.setVisibility(View.GONE);
             }
         });
 
@@ -264,6 +268,8 @@ public class DetailActivity extends AppCompatActivity implements InternetConnect
                 tabReviewLayout.setVisibility(View.VISIBLE);
                 tabDetailLayout.setVisibility(View.GONE);
                 tabProductLayout.setVisibility(View.GONE);
+
+                btnLayout.setVisibility(View.GONE);
             }
         });
 
@@ -303,16 +309,19 @@ public class DetailActivity extends AppCompatActivity implements InternetConnect
             @Override
             public void onClick(View v) {
 
+                String color = Prefs.getString("grabproductcolor", null);
+                String size = Prefs.getString("grabproductsize", null);
+
                 if (Helper.bag.equals("0")) {
                     int flag = 1;
                     Helper.bag = "1";
                     btnSave.setText("REMOVE FROM BAG");
-                    addRemoveBag(id, cus_id, flag);
+                    addRemoveBag(id, cus_id, flag, color, size);
                 } else if (Helper.bag.equals("1")) {
                     int flag = 0;
                     Helper.bag = "0";
                     btnSave.setText("ADD TO BAG");
-                    addRemoveBag(id, cus_id, flag);
+                    addRemoveBag(id, cus_id, flag, color, size);
                 }
             }
         });
@@ -427,7 +436,7 @@ public class DetailActivity extends AppCompatActivity implements InternetConnect
         queue.add(request);
     }
 
-    private void addRemoveBag(final String id, final String cus_id, final int flag) {
+    private void addRemoveBag(final String id, final String cus_id, final int flag, final String color, final String size) {
 
         progress.animate();
         progress.setVisibility(View.VISIBLE);
@@ -527,6 +536,8 @@ public class DetailActivity extends AppCompatActivity implements InternetConnect
                 params.put("customer_id", cus_id);
                 params.put("product_id", id);
                 params.put("flag", String.valueOf(flag));
+                params.put("color", color);
+                params.put("size", size);
                 return params;
             }
         };
@@ -755,6 +766,8 @@ public class DetailActivity extends AppCompatActivity implements InternetConnect
                 params.put("bname", b_name);
                 params.put("bmobile", b_mobile);
                 params.put("cartid", String.valueOf(rand_int));
+                params.put("color", Prefs.getString("grabproductcolor", null));
+                params.put("size", Prefs.getString("grabproductsize", null));
                 return params;
             }
         };
@@ -925,6 +938,7 @@ public class DetailActivity extends AppCompatActivity implements InternetConnect
                                     JSONArray array = new JSONArray(data);
                                     JSONObject object = array.getJSONObject(0);
 
+                                    String barid = object.getString("barcode_id");
                                     String category = object.getString("sub_product");
                                     String brand = object.getString("model_name");
                                     String product = object.getString("product");
@@ -934,7 +948,8 @@ public class DetailActivity extends AppCompatActivity implements InternetConnect
                                     String prate =  object.getString("prate");
                                     String trate =  object.getString("trate");
                                     String size =  object.getString("size");
-                                    String color =  object.getString("all_color");
+                                    String varcolor =  object.getString("all_color");
+                                    String color =  object.getString("color");
                                     String desc =  object.getString("pro_desc");
                                     String branchid =  object.getString("b_id");
                                     String branchname =  object.getString("branchname");
@@ -985,10 +1000,10 @@ public class DetailActivity extends AppCompatActivity implements InternetConnect
                                         tvRate.setText("0");
                                     }
 
-                                    Prefs.putString("barid", id);
-                                    List<String> sepColor = Arrays.asList(color.split("\\s*,\\s*"));
+                                    Prefs.putString("barid", barid);
+                                    List<String> sepColor = Arrays.asList(varcolor.split("\\s*,\\s*"));
 
-                                    if (color!=null && !color.isEmpty() && color.trim().length() > 0) {
+                                    if (varcolor!=null && !varcolor.isEmpty() && varcolor.trim().length() > 0) {
                                         colorLayout.setVisibility(View.VISIBLE);
                                         tvProductColor.setVisibility(View.GONE);
                                         sizeLayout.setVisibility(View.GONE);
@@ -1010,10 +1025,27 @@ public class DetailActivity extends AppCompatActivity implements InternetConnect
                                         rvColor.setAdapter(colorAdapter);
                                         colorAdapter.setOnColorChangeListener(DetailActivity.this, DetailActivity.this);
                                         colorAdapter.notifyDataSetChanged();
-                                    }else {
+                                    } else if (color!=null && !color.isEmpty() && color.trim().length() > 0){
+
+                                        colorLayout.setVisibility(View.VISIBLE);
+                                        tvProductColor.setVisibility(View.GONE);
+                                        sizeLayout.setVisibility(View.GONE);
+                                        tvProductSize.setVisibility(View.VISIBLE);
+                                        tvProductSize.setText("Select any one of the Available Color");
+                                        colorList.clear();
+
+                                        AllColor allColor = new AllColor(color);
+                                        colorList.add(allColor);
+
+                                        colorAdapter = new DetailColorAdapter(DetailActivity.this, colorList);
+                                        rvColor.setAdapter(colorAdapter);
+                                        colorAdapter.setOnColorChangeListener(DetailActivity.this, DetailActivity.this);
+                                        colorAdapter.notifyDataSetChanged();
+                                    } else {
                                         colorLayout.setVisibility(View.GONE);
                                         tvProductColor.setVisibility(View.VISIBLE);
                                         tvProductColor.setText("NA");
+                                        getSize(barid, "NA");
                                     }
 
                                     if (!quantity.equalsIgnoreCase("0")){
@@ -1162,8 +1194,7 @@ public class DetailActivity extends AppCompatActivity implements InternetConnect
                                     tvProductSize.setVisibility(View.VISIBLE);
                                     tvProductSize.setText("NA");
 
-                                    btnSave.setVisibility(View.VISIBLE);
-                                    btnCart.setVisibility(View.VISIBLE);
+                                    btnLayout.setVisibility(View.VISIBLE);
 
                                 }
                                 else if (jsonObject.getString("status")
@@ -1231,6 +1262,125 @@ public class DetailActivity extends AppCompatActivity implements InternetConnect
         request.setRetryPolicy(policy);
         queue.add(request);
 
+    }
+
+    private void getColorSizeProduct(final String detbarid, final String detcolor, final String detsize) {
+
+        progress.animate();
+        progress.setVisibility(View.VISIBLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        StringRequest request = new StringRequest(Request.Method.POST, GET_COLOR_SIZE_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(response);
+                            if (jsonObject != null){
+
+                                if (jsonObject.getString("status")
+                                        .equalsIgnoreCase("success")){
+                                    detailLayout.setVisibility(View.VISIBLE);
+                                    progress.setVisibility(View.GONE);
+                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                                    String data = jsonObject.getString("data");
+                                    JSONArray array = new JSONArray(data);
+                                    JSONObject object = array.getJSONObject(0);
+
+                                    String id = object.getString("id");
+
+                                    Prefs.putString("did", id);
+
+                                    //FBToast.infoToast(GrabOfferActivity.this, id, FBToast.LENGTH_SHORT);
+
+                                }else if (jsonObject.getString("status")
+                                        .equalsIgnoreCase("empty")){
+                                    progress.setVisibility(View.GONE);
+                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                    detailLayout.setVisibility(View.GONE);
+                                    emptyLayout.setVisibility(View.VISIBLE);
+                                }
+                                else if (jsonObject.getString("status")
+                                        .equalsIgnoreCase("failed")){
+                                    progress.setVisibility(View.GONE);
+                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                                    FBToast.errorToast(DetailActivity.this, jsonObject.getString("message"), FBToast.LENGTH_SHORT);
+                                }
+                            }else {
+                                progress.setVisibility(View.GONE);
+                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                                FBToast.errorToast(DetailActivity.this, "Something went wrong", FBToast.LENGTH_SHORT);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            progress.setVisibility(View.GONE);
+                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                            FBToast.errorToast(DetailActivity.this, e.getMessage(), FBToast.LENGTH_SHORT);
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        progress.setVisibility(View.GONE);
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                        String message = null;
+
+                        if (error instanceof NetworkError){
+                            message = "Can't Connect to Network!";
+                        }else if (error instanceof ServerError){
+                            message = "Server could not be Found!";
+                        }else if (error instanceof AuthFailureError){
+                            message = "Can't Connect to Network!";
+                        }else if (error instanceof ParseError){
+                            message = "Parsing Error!";
+                        }else if (error instanceof NoConnectionError){
+                            message = "Can't connect to Network!";
+                        }else if (error instanceof TimeoutError){
+                            message = "Connection Timeout!";
+                        }
+                        AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
+                        AlertDialog alertDialog = builder.create();
+                        builder.setTitle("NETWORK ERROR")
+                                .setMessage(message)
+                                .setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        finish();
+                                        startActivity(getIntent());
+                                    }
+                                })
+                                .setCancelable(false);
+                        alertDialog.show();
+                        FBToast.errorToast(DetailActivity.this, message, FBToast.LENGTH_SHORT);
+                    }
+                })
+        {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("barid", detbarid);
+                params.put("color", detcolor);
+                params.put("size", detsize);
+                return params;
+            }
+        };
+        RequestQueue queue = Volley.newRequestQueue(DetailActivity.this);
+        int socketTimeout = 30000;
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        request.setRetryPolicy(policy);
+        queue.add(request);
     }
 
     @Override
@@ -1347,9 +1497,17 @@ public class DetailActivity extends AppCompatActivity implements InternetConnect
         Prefs.putString("grabproductcolor", color);
     }
 
+
+
     @Override
     public void onSizeChanged(String size) {
 
         Prefs.putString("grabproductsize", size);
+
+        String detbarid = Prefs.getString("barid", null);
+        String detcolor = Prefs.getString("grabproductcolor", null);
+        String detsize = Prefs.getString("grabproductsize", null);
+
+        getColorSizeProduct(detbarid, detcolor, detsize);
     }
 }
