@@ -607,23 +607,45 @@ public class HomeActivity extends AppCompatActivity implements InternetConnectiv
 
                                     imageLoader = ImageCache.getInstance(HomeActivity.this).getImageLoader();
 
-                                    imageLoader.get(Helper.BANNER_URL + bannerList.get(0), ImageLoader.getImageListener(nivBanner1, R.drawable.image_preview, R.drawable.image_alert));
-                                    nivBanner1.setImageUrl(Helper.BANNER_URL + bannerList.get(0), imageLoader);
-                                    nivBanner1.setScaleType(NetworkImageView.ScaleType.FIT_XY);
+                                    if (bannerList.size() == 1){
+                                        imageLoader.get(Helper.BANNER_URL + bannerList.get(0), ImageLoader.getImageListener(nivBanner1, R.drawable.image_preview, R.drawable.image_alert));
+                                        nivBanner1.setImageUrl(Helper.BANNER_URL + bannerList.get(0), imageLoader);
+                                        nivBanner1.setScaleType(NetworkImageView.ScaleType.FIT_XY);
+                                        nivBanner2.setVisibility(View.GONE);
+                                        nivBanner3.setVisibility(View.GONE);
+                                    }
 
-                                    imageLoader.get(Helper.BANNER_URL + bannerList.get(1), ImageLoader.getImageListener(nivBanner2, R.drawable.image_preview, R.drawable.image_alert));
-                                    nivBanner2.setImageUrl(Helper.BANNER_URL + bannerList.get(1), imageLoader);
-                                    nivBanner2.setScaleType(NetworkImageView.ScaleType.FIT_XY);
+                                    else if (bannerList.size() == 2) {
+                                        imageLoader.get(Helper.BANNER_URL + bannerList.get(0), ImageLoader.getImageListener(nivBanner1, R.drawable.image_preview, R.drawable.image_alert));
+                                        nivBanner1.setImageUrl(Helper.BANNER_URL + bannerList.get(0), imageLoader);
+                                        nivBanner1.setScaleType(NetworkImageView.ScaleType.FIT_XY);
+                                        imageLoader.get(Helper.BANNER_URL + bannerList.get(1), ImageLoader.getImageListener(nivBanner2, R.drawable.image_preview, R.drawable.image_alert));
+                                        nivBanner2.setImageUrl(Helper.BANNER_URL + bannerList.get(1), imageLoader);
+                                        nivBanner2.setScaleType(NetworkImageView.ScaleType.FIT_XY);
+                                        nivBanner3.setVisibility(View.GONE);
+                                    }
 
-                                    imageLoader.get(Helper.BANNER_URL + bannerList.get(2), ImageLoader.getImageListener(nivBanner3, R.drawable.image_preview, R.drawable.image_alert));
-                                    nivBanner3.setImageUrl(Helper.BANNER_URL + bannerList.get(2), imageLoader);
-                                    nivBanner3.setScaleType(NetworkImageView.ScaleType.FIT_XY);
+                                    else if (bannerList.size() == 3) {
+                                        imageLoader.get(Helper.BANNER_URL + bannerList.get(0), ImageLoader.getImageListener(nivBanner1, R.drawable.image_preview, R.drawable.image_alert));
+                                        nivBanner1.setImageUrl(Helper.BANNER_URL + bannerList.get(0), imageLoader);
+                                        nivBanner1.setScaleType(NetworkImageView.ScaleType.FIT_XY);
+                                        imageLoader.get(Helper.BANNER_URL + bannerList.get(1), ImageLoader.getImageListener(nivBanner2, R.drawable.image_preview, R.drawable.image_alert));
+                                        nivBanner2.setImageUrl(Helper.BANNER_URL + bannerList.get(1), imageLoader);
+                                        nivBanner2.setScaleType(NetworkImageView.ScaleType.FIT_XY);
+                                        imageLoader.get(Helper.BANNER_URL + bannerList.get(2), ImageLoader.getImageListener(nivBanner3, R.drawable.image_preview, R.drawable.image_alert));
+                                        nivBanner3.setImageUrl(Helper.BANNER_URL + bannerList.get(2), imageLoader);
+                                        nivBanner3.setScaleType(NetworkImageView.ScaleType.FIT_XY);
+                                    }
 
                                 }else if (jsonObject.getString("status")
                                         .equalsIgnoreCase("empty")){
                                     progress.setVisibility(View.GONE);
                                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                                     FBToast.warningToast(HomeActivity.this, jsonObject.getString("message"), FBToast.LENGTH_SHORT);
+
+                                    nivBanner1.setVisibility(View.GONE);
+                                    nivBanner2.setVisibility(View.GONE);
+                                    nivBanner3.setVisibility(View.GONE);
                                 }
                                 else if (jsonObject.getString("status")
                                         .equalsIgnoreCase("failed")){

@@ -51,6 +51,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
         myViewHolder.tvPCPrice.setPaintFlags(myViewHolder.tvPCPrice.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
         myViewHolder.tvTotalPrice.setText("₹"+map.get("total"));
         myViewHolder.tvQuantity.setText(map.get("qty"));
+        myViewHolder.tvColor.setText(map.get("color"));
+        myViewHolder.tvSize.setText(map.get("size"));
 
         imageLoader = ImageCache.getInstance(context).getImageLoader();
         imageLoader.get(Helper.IMAGE_URL + map.get("proimage"), ImageLoader.getImageListener(myViewHolder.ivImage, R.drawable.image_preview, R.drawable.image_alert));
@@ -61,20 +63,26 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
             @Override
             public void onClick(View v) {
 
+                String color = map.get("color");
+                String size = map.get("size");
+
                 Intent intent = new Intent(context, OrderDetailActivity.class);
                 intent.putExtra("id", map.get("id"));
                 intent.putExtra("product", map.get("product"));
+                intent.putExtra("color", color);
+                intent.putExtra("size", size);
+
                 context.startActivity(intent);
             }
         });
 
-        myViewHolder.btnInvoice.setOnClickListener(new View.OnClickListener() {
+        /*myViewHolder.btnInvoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
             }
-        });
+        });*/
 
 
     }
@@ -86,13 +94,15 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvPName, tvPPrice, tvPCPrice, tvTotalPrice, tvQuantity;
+        TextView tvPName, tvPPrice, tvPCPrice, tvTotalPrice, tvQuantity, tvColor, tvSize;
         NetworkImageView ivImage;
         CardView cardView;
         Button btnDetail, btnInvoice;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            tvColor = itemView.findViewById(R.id.order_tv_color);
+            tvSize = itemView.findViewById(R.id.order_tv_size);
             tvPName = itemView.findViewById(R.id.order_pro_name);
             tvPPrice = itemView.findViewById(R.id.order_price);
             tvPCPrice = itemView.findViewById(R.id.order_cross_price);
@@ -101,7 +111,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
             ivImage = itemView.findViewById(R.id.order_image);
             cardView = itemView.findViewById(R.id.cv_order);
             btnDetail = itemView.findViewById(R.id.order_btn_detail);
-            btnInvoice = itemView.findViewById(R.id.order_btn_invoice);
+            //btnInvoice = itemView.findViewById(R.id.order_btn_invoice);
         }
     }
 }

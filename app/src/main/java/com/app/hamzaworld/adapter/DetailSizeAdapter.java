@@ -21,6 +21,7 @@ import com.app.hamzaworld.other.OnSizeChangeListener;
 import java.util.ArrayList;
 
 import static com.app.hamzaworld.activity.DetailActivity.btnLayout;
+import static com.app.hamzaworld.activity.DetailActivity.detailLayout;
 
 
 public class DetailSizeAdapter extends RecyclerView.Adapter<DetailSizeAdapter.ViewHolder> {
@@ -85,6 +86,7 @@ public class DetailSizeAdapter extends RecyclerView.Adapter<DetailSizeAdapter.Vi
 
         if (!rb.isChecked()){
             btnLayout.setVisibility(View.GONE);
+            detailLayout.fullScroll(View.FOCUS_DOWN);
 
         }
 

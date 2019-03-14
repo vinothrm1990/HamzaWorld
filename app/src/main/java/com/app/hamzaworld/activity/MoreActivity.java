@@ -92,8 +92,12 @@ public class MoreActivity extends AppCompatActivity implements InternetConnectiv
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(MoreActivity.this, OrderActivity.class));
-                Bungee.swipeRight(MoreActivity.this);
+                if (Prefs.getBoolean("notLoggedIn", true)) {
+                    FBToast.infoToast(MoreActivity.this, "Login or Register to Proceed", FBToast.LENGTH_SHORT);
+                }else {
+                    startActivity(new Intent(MoreActivity.this, OrderActivity.class));
+                    Bungee.swipeRight(MoreActivity.this);
+                }
             }
         });
 
@@ -101,8 +105,12 @@ public class MoreActivity extends AppCompatActivity implements InternetConnectiv
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(MoreActivity.this, BagActivity.class));
-                Bungee.swipeRight(MoreActivity.this);
+                if (Prefs.getBoolean("notLoggedIn", true)) {
+                    FBToast.infoToast(MoreActivity.this, "Login or Register to Proceed", FBToast.LENGTH_SHORT);
+                }else {
+                    startActivity(new Intent(MoreActivity.this, BagActivity.class));
+                    Bungee.swipeRight(MoreActivity.this);
+                }
             }
         });
 

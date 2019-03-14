@@ -135,6 +135,8 @@ public class OrderActivity extends AppCompatActivity implements InternetConnecti
                                         String crossprice =  object.getString("cross_price");
                                         String qty =  object.getString("c_qty");
                                         String total =  object.getString("total");
+                                        String color =  object.getString("ocolor");
+                                        String size =  object.getString("osize");
 
                                         map.put("id", id);
                                         map.put("brand", brand);
@@ -145,6 +147,8 @@ public class OrderActivity extends AppCompatActivity implements InternetConnecti
                                         map.put("qty", qty);
                                         map.put("total", total);
                                         map.put("cid", cartid);
+                                        map.put("color", color);
+                                        map.put("size", size);
 
                                         orderList.add(map);
 

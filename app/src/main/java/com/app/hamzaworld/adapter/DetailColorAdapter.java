@@ -18,6 +18,7 @@ import com.app.hamzaworld.data.AllColor;
 import com.app.hamzaworld.other.OnColorChangeListener;
 import java.util.ArrayList;
 import static com.app.hamzaworld.activity.DetailActivity.btnLayout;
+import static com.app.hamzaworld.activity.DetailActivity.detailLayout;
 
 public class DetailColorAdapter extends RecyclerView.Adapter<DetailColorAdapter.ViewHolder> {
 
@@ -81,6 +82,7 @@ public class DetailColorAdapter extends RecyclerView.Adapter<DetailColorAdapter.
 
         if (!rb.isChecked()){
             btnLayout.setVisibility(View.GONE);
+            detailLayout.fullScroll(View.FOCUS_DOWN);
 
         }
 

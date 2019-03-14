@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:layout_margin="10dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_margin="10dp"
+            android:weightSum="2"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:fontFamily="@font/share_bold"
+                android:textSize="18sp"
+                android:text="Rate this Product"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:layout_height="25dp"
+                android:id="@+id/rate_rating_bar"
+                style="@style/Widget.MaterialRatingBar.RatingBar"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.libizo.CustomEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Tell us what you think about this Product"
+                app:libIZO_setFont="@string/share_regular"
+                android:inputType="textMultiLine"
+                android:lines="5"
+                android:textSize="18sp"
+                android:maxLines="8"
+                android:gravity="left|top"
+                android:id="@+id/rate_et_review"
+                app:libIZO_setBorderColor="#5c5c5c"
+                app:libIZO_setBorderView="true"
+                app:libIZO_setCornerRadius="4dp"
+                app:libIZO_setStrokeWidth="2dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="10dp"
+            android:weightSum="2"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/round_btn_save"
+                android:id="@+id/rate_btn_cancel"
+                android:text="CANCEL"
+                android:textSize="18sp"
+                android:fontFamily="@font/share_bold"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <Button
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/round_btn_cart"
+                android:id="@+id/rate_btn_submit"
+                android:text="SUBMIT"
+                android:textColor="#FFF"
+                android:textSize="18sp"
+                android:fontFamily="@font/share_bold"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

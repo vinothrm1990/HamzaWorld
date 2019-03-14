@@ -101,7 +101,7 @@ public class DetailActivity extends AppCompatActivity implements InternetConnect
     RecyclerView rvReview, rvColor, rvSize;
     ReviewAdapter reviewAdapter;
     RecyclerView.LayoutManager layoutManager;
-    ScrollView detailLayout;
+    public static ScrollView detailLayout;
     LinearLayout emptyLayout, colorLayout, sizeLayout;
     String cus_id, b_id, b_name, b_mobile;
     TextView tvName, tvPrice, tvCrossPrice, tvRate, tvTabProduct, tvTabDetail, tvTabReview,
@@ -211,8 +211,6 @@ public class DetailActivity extends AppCompatActivity implements InternetConnect
         layoutManager = new LinearLayoutManager(this);
         rvReview.setLayoutManager(layoutManager);
 
-        getReview(id);
-
         tvTabProduct.setTextColor(getResources().getColor(R.color.colorWhite));
         tvTabProduct.setBackgroundColor(getResources().getColor(R.color.colorOrange));
 
@@ -270,6 +268,8 @@ public class DetailActivity extends AppCompatActivity implements InternetConnect
                 tabProductLayout.setVisibility(View.GONE);
 
                 btnLayout.setVisibility(View.GONE);
+
+                getReview(id);
             }
         });
 
@@ -803,7 +803,7 @@ public class DetailActivity extends AppCompatActivity implements InternetConnect
 
                                     String data = jsonObject.getString("data");
                                     JSONArray array = new JSONArray(data);
-
+                                    reviewList.clear();
                                     for (int i = 0; i < array.length(); i++) {
 
                                         JSONObject object = array.getJSONObject(0);
@@ -901,7 +901,7 @@ public class DetailActivity extends AppCompatActivity implements InternetConnect
             protected Map<String, String> getParams()
             {
                 Map<String, String>  params = new HashMap<String, String>();
-                params.put("id", id);
+                params.put("product_id", id);
                 return params;
             }
         };

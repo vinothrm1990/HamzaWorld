@@ -20,6 +20,7 @@ import com.app.hamzaworld.other.OnColorChangeListener;
 
 import java.util.ArrayList;
 import static com.app.hamzaworld.activity.GrabProductActivity.btnLayout;
+import static com.app.hamzaworld.activity.GrabProductActivity.detailLayout;
 
 
 public class GrabProductColorAdapter extends RecyclerView.Adapter<GrabProductColorAdapter.ViewHolder> {
@@ -85,6 +86,7 @@ public class GrabProductColorAdapter extends RecyclerView.Adapter<GrabProductCol
 
         if (!rb.isChecked()){
             btnLayout.setVisibility(View.GONE);
+            detailLayout.fullScroll(View.FOCUS_DOWN);
 
         }
 

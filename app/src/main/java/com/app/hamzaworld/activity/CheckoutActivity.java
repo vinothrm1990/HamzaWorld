@@ -142,6 +142,7 @@ public class CheckoutActivity extends AppCompatActivity implements InternetConne
                 final CustomEditText etPincode = view.findViewById(R.id.change_et_pincode);
                 Button btnUpdate = view.findViewById(R.id.change_btn_update);
 
+
                 builder.setView(view);
 
                 etName.setText(tvName.getText().toString().trim());

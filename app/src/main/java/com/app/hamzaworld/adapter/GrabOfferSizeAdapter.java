@@ -18,6 +18,7 @@ import com.app.hamzaworld.data.AllSize;
 import com.app.hamzaworld.other.OnSizeChangeListener;
 import java.util.ArrayList;
 import static com.app.hamzaworld.activity.GrabOfferActivity.btnLayout;
+import static com.app.hamzaworld.activity.GrabOfferActivity.detailLayout;
 
 
 public class GrabOfferSizeAdapter extends RecyclerView.Adapter<GrabOfferSizeAdapter.ViewHolder> {
@@ -82,6 +83,7 @@ public class GrabOfferSizeAdapter extends RecyclerView.Adapter<GrabOfferSizeAdap
 
         if (!rb.isChecked()){
             btnLayout.setVisibility(View.GONE);
+            detailLayout.fullScroll(View.FOCUS_DOWN);
         }
 
         viewHolder.rgSize.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

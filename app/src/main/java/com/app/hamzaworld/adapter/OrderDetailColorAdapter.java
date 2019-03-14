@@ -18,6 +18,7 @@ import com.app.hamzaworld.data.AllColor;
 import com.app.hamzaworld.other.OnColorChangeListener;
 import java.util.ArrayList;
 import static com.app.hamzaworld.activity.OrderDetailActivity.btnLayout;
+import static com.app.hamzaworld.activity.OrderDetailActivity.detailLayout;
 
 public class OrderDetailColorAdapter extends RecyclerView.Adapter<OrderDetailColorAdapter.ViewHolder> {
 
@@ -81,6 +82,7 @@ public class OrderDetailColorAdapter extends RecyclerView.Adapter<OrderDetailCol
 
         if (!rb.isChecked()){
             btnLayout.setVisibility(View.GONE);
+            detailLayout.fullScroll(View.FOCUS_DOWN);
         }
 
         viewHolder.rgColor.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

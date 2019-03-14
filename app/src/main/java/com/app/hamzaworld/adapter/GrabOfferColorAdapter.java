@@ -18,6 +18,7 @@ import com.app.hamzaworld.data.AllColor;
 import com.app.hamzaworld.other.OnColorChangeListener;
 import java.util.ArrayList;
 import static com.app.hamzaworld.activity.GrabOfferActivity.btnLayout;
+import static com.app.hamzaworld.activity.GrabOfferActivity.detailLayout;
 
 
 public class GrabOfferColorAdapter extends RecyclerView.Adapter<GrabOfferColorAdapter.ViewHolder> {
@@ -82,6 +83,7 @@ public class GrabOfferColorAdapter extends RecyclerView.Adapter<GrabOfferColorAd
 
         if (!rb.isChecked()){
             btnLayout.setVisibility(View.GONE);
+            detailLayout.fullScroll(View.FOCUS_DOWN);
         }
 
         viewHolder.rgColor.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

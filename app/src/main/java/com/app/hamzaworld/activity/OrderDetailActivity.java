@@ -15,6 +15,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,50 +41,44 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.hamzaworld.R;
-import com.app.hamzaworld.adapter.DetailColorAdapter;
-import com.app.hamzaworld.adapter.GrabProductColorAdapter;
 import com.app.hamzaworld.adapter.DetailAdapter;
 import com.app.hamzaworld.adapter.OrderDetailColorAdapter;
 import com.app.hamzaworld.adapter.OrderDetailSizeAdapter;
 import com.app.hamzaworld.adapter.ReviewAdapter;
-import com.app.hamzaworld.adapter.GrabProductSizeAdapter;
 import com.app.hamzaworld.data.AllColor;
 import com.app.hamzaworld.data.AllSize;
 import com.app.hamzaworld.other.HamzaWorld;
 import com.app.hamzaworld.other.Helper;
-import com.app.hamzaworld.other.OnColorChangeListener;
-import com.app.hamzaworld.other.OnSizeChangeListener;
+import com.libizo.CustomEditText;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.tfb.fbtoast.FBToast;
 import com.treebo.internetavailabilitychecker.InternetAvailabilityChecker;
 import com.treebo.internetavailabilitychecker.InternetConnectivityListener;
 import com.viewpagerindicator.CirclePageIndicator;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 
 import in.ishankhanna.UberProgressView;
+import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 import spencerstudios.com.bungeelib.Bungee;
+import thebat.lib.validutil.ValidUtils;
 
-public class OrderDetailActivity extends AppCompatActivity implements InternetConnectivityListener,
-        OnColorChangeListener, OnSizeChangeListener {
+public class OrderDetailActivity extends AppCompatActivity implements InternetConnectivityListener{
 
     InternetAvailabilityChecker availabilityChecker;
     UberProgressView progress;
     Menu menu;
-    String id, product;
+    AlertDialog rateDialog;
+    String id, product, ocolor, osize;
     public static LinearLayout btnLayout;
     Button btnSave, btnCart;
     ArrayList<AllColor> colorList;
@@ -99,10 +94,11 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
     OrderDetailSizeAdapter sizeAdapter;
     private static int NUM_PAGES = 0;
     private static int currentPage = 0;
-    RecyclerView rvReview, rvColor, rvSize;
+    RecyclerView rvReview;
+    ValidUtils validUtils;
     ReviewAdapter reviewAdapter;
     RecyclerView.LayoutManager layoutManager;
-    ScrollView detailLayout;
+    public  static ScrollView detailLayout;
     LinearLayout emptyLayout, colorLayout, sizeLayout;
     String cus_id, b_id, b_name, b_mobile;
     TextView tvName, tvPrice, tvCrossPrice, tvRate, tvTabProduct, tvTabDetail, tvTabReview,
@@ -113,8 +109,7 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
     String GET_CART_FLAG_URL = Helper.BASE_URL + Helper.GET_CART_FLAG;
     String GET_BAG_FLAG_URL = Helper.BASE_URL + Helper.GET_WISH_FLAG;
     String BAG_URL = Helper.BASE_URL + Helper.ADD_REMOVE_WISHLIST;
-    String SIZE_URL = Helper.BASE_URL + Helper.GET_SIZE;
-    String GET_COLOR_SIZE_URL = Helper.BASE_URL + Helper.GET_COLOR_SIZE_PRODUCT;
+    String POST_RATE_URL = Helper.BASE_URL + Helper.RATING;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,17 +118,24 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
 
         availabilityChecker = InternetAvailabilityChecker.getInstance();
         availabilityChecker.addInternetConnectivityListener(this);
+        validUtils = new ValidUtils();
 
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
         product = intent.getStringExtra("product");
+        ocolor = intent.getStringExtra("color");
+        osize = intent.getStringExtra("size");
 
         if (id == null && product == null){
             id = Prefs.getString("oid", null);
             product = Prefs.getString("oproduct", null);
+            ocolor = Prefs.getString("ocolor", null);
+            osize = Prefs.getString("osize", null);
         }else {
             Prefs.putString("oid", id);
             Prefs.putString("oproduct", product);
+            Prefs.putString("bcolor", ocolor);
+            Prefs.putString("bsize", osize);
         }
 
         TextView title = new TextView(getApplicationContext());
@@ -153,8 +155,6 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
 
         colorLayout = findViewById(R.id.color_layout);
         sizeLayout = findViewById(R.id.size_layout);
-        rvColor = findViewById(R.id.rv_radio_color);
-        rvSize = findViewById(R.id.rv_radio_size);
         progress = findViewById(R.id.order_detail_progress);
         viewPager = findViewById(R.id.slide_pager);
         pageIndicator = findViewById(R.id.slide_indicator);
@@ -185,19 +185,53 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
         detailLayout.setVisibility(View.GONE);
         getDetail(id);
 
-        sizeList =new ArrayList<>();
-        sizeAdapter = new OrderDetailSizeAdapter(this, sizeList);
-        layoutManager = new LinearLayoutManager(this);
-        rvSize.setHasFixedSize(true);
-        rvSize.setLayoutManager(layoutManager);
+        final String cusid = Prefs.getString("umobile", null);
+        final String cusname = Prefs.getString("uname", null);
 
-        colorList =new ArrayList<>();
-        colorAdapter = new OrderDetailColorAdapter(this, colorList);
-        layoutManager = new LinearLayoutManager(this);
-        rvColor.setHasFixedSize(true);
-        rvColor.setLayoutManager(layoutManager);
+        AlertDialog.Builder builder = new AlertDialog.Builder(OrderDetailActivity.this);
+        LayoutInflater inflater = getLayoutInflater();
+        View view = inflater.inflate(R.layout.rate_dilaog, null);
 
-        String cusid = Prefs.getString("mobile", "");
+        final CustomEditText etReview = view.findViewById(R.id.rate_et_review);
+        Button btnCancel = view.findViewById(R.id.rate_btn_cancel);
+        Button btnSubmit = view.findViewById(R.id.rate_btn_submit);
+        final MaterialRatingBar ratingBar = view.findViewById(R.id.rate_rating_bar);
+
+        builder.setCancelable(false);
+        builder.setView(view);
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                rateDialog.dismiss();
+            }
+        });
+
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (validUtils.validateEditTexts(etReview) && ratingBar.getRating()!=0){
+
+                    Date now = new Date();
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+                    String timestamp = sdf.format(now);
+
+                    Float star = ratingBar.getRating();
+                    String rate = String.valueOf(Math.round(star));
+                    String review = etReview.getText().toString().trim();
+
+                    postRating(id, cusid, cusname, rate, review, timestamp);
+                }else {
+
+                    FBToast.infoToast(OrderDetailActivity.this, "Rating or Reviews are Empty", FBToast.LENGTH_SHORT);
+                }
+            }
+        });
+
+        rateDialog = builder.create();
+        rateDialog.show();
 
         if (cusid!=null && !cusid.isEmpty()){
             Date now = new Date();
@@ -211,8 +245,6 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
         rvReview = findViewById(R.id.rv_order_detail_review);
         layoutManager = new LinearLayoutManager(this);
         rvReview.setLayoutManager(layoutManager);
-
-        getReview(id);
 
         tvTabProduct.setTextColor(getResources().getColor(R.color.colorWhite));
         tvTabProduct.setBackgroundColor(getResources().getColor(R.color.colorOrange));
@@ -232,7 +264,7 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
                 tabDetailLayout.setVisibility(View.GONE);
                 tabReviewLayout.setVisibility(View.GONE);
 
-                getDetail(id);
+                btnLayout.setVisibility(View.GONE);
 
             }
         });
@@ -274,6 +306,8 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
                 tabProductLayout.setVisibility(View.GONE);
 
                 btnLayout.setVisibility(View.GONE);
+
+                getReview(id);
             }
         });
 
@@ -331,6 +365,120 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
             }
         });
 
+    }
+
+    private void postRating(final String id, final String cusid, final String cusname, final String rate, final String review, final String timestamp) {
+
+
+        progress.animate();
+        progress.setVisibility(View.VISIBLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        StringRequest request = new StringRequest(Request.Method.POST, POST_RATE_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(response);
+                            if (jsonObject != null){
+
+                                if (jsonObject.getString("status")
+                                        .equalsIgnoreCase("success")){
+
+                                    progress.setVisibility(View.GONE);
+                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                    FBToast.successToast(OrderDetailActivity.this, jsonObject.getString("message"), FBToast.LENGTH_SHORT);
+
+                                    rateDialog.dismiss();
+
+                                }else if (jsonObject.getString("status")
+                                        .equalsIgnoreCase("empty")){
+                                    progress.setVisibility(View.GONE);
+                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                                }else if (jsonObject.getString("status")
+                                        .equalsIgnoreCase("failed")){
+                                    progress.setVisibility(View.GONE);
+                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                                    FBToast.errorToast(OrderDetailActivity.this, jsonObject.getString("message"), FBToast.LENGTH_SHORT);
+                                }
+                            }else {
+                                progress.setVisibility(View.GONE);
+                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                                FBToast.errorToast(OrderDetailActivity.this, "Something went wrong", FBToast.LENGTH_SHORT);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            progress.setVisibility(View.GONE);
+                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                            FBToast.errorToast(OrderDetailActivity.this, e.getMessage(), FBToast.LENGTH_SHORT);
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        progress.setVisibility(View.GONE);
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                        String message = null;
+
+                        if (error instanceof NetworkError){
+                            message = "Can't Connect to Network!";
+                        }else if (error instanceof ServerError){
+                            message = "Server could not be Found!";
+                        }else if (error instanceof AuthFailureError){
+                            message = "Can't Connect to Network!";
+                        }else if (error instanceof ParseError){
+                            message = "Parsing Error!";
+                        }else if (error instanceof NoConnectionError){
+                            message = "Can't connect to Network!";
+                        }else if (error instanceof TimeoutError){
+                            message = "Connection Timeout!";
+                        }
+                        AlertDialog.Builder builder = new AlertDialog.Builder(OrderDetailActivity.this);
+                        AlertDialog alertDialog = builder.create();
+                        builder.setTitle("NETWORK ERROR")
+                                .setMessage(message)
+                                .setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        finish();
+                                        startActivity(getIntent());
+                                    }
+                                })
+                                .setCancelable(false);
+                        alertDialog.show();
+                        FBToast.errorToast(OrderDetailActivity.this, message, FBToast.LENGTH_SHORT);
+                    }
+                })
+        {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("customer_id", cusid);
+                params.put("customer_name", cusname);
+                params.put("product_id", id);
+                params.put("rate", rate);
+                params.put("review", review);
+                params.put("timestamp", timestamp);
+                return params;
+            }
+        };
+        RequestQueue queue = Volley.newRequestQueue(OrderDetailActivity.this);
+        int socketTimeout = 30000;
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        request.setRetryPolicy(policy);
+        queue.add(request);
     }
 
     private void getBagFlag(final String cusid, final String id) {
@@ -806,7 +954,7 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
 
                                     String data = jsonObject.getString("data");
                                     JSONArray array = new JSONArray(data);
-
+                                    reviewList.clear();
                                     for (int i = 0; i < array.length(); i++) {
 
                                         JSONObject object = array.getJSONObject(0);
@@ -904,7 +1052,7 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
             protected Map<String, String> getParams()
             {
                 Map<String, String>  params = new HashMap<String, String>();
-                params.put("id", id);
+                params.put("product_id", id);
                 return params;
             }
         };
@@ -963,6 +1111,7 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
                                     Prefs.putString("bname", branchname);
                                     Prefs.putString("bmobile" , branchmobile);
 
+                                    btnLayout.setVisibility(View.GONE);
 
                                     if (sliderimage!=null && !sliderimage.isEmpty()){
                                         String [] list = sliderimage.split(",");
@@ -1007,50 +1156,9 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
                                     Prefs.putString("barid", barid);
                                     List<String> sepColor = Arrays.asList(varcolor.split("\\s*,\\s*"));
 
-                                    if (varcolor!=null && !varcolor.isEmpty() && varcolor.trim().length() > 0) {
-                                        colorLayout.setVisibility(View.VISIBLE);
-                                        tvProductColor.setVisibility(View.GONE);
-                                        sizeLayout.setVisibility(View.GONE);
-                                        tvProductSize.setVisibility(View.VISIBLE);
-                                        tvProductSize.setText("Select any one of the Available Color");
-                                        colorList.clear();
+                                    tvProductColor.setText(ocolor);
+                                    tvProductSize.setText(osize);
 
-                                        for (int i = 0; i < sepColor.size(); i++) {
-
-                                            AllColor allColor = new AllColor(sepColor.get(i) + "");
-                                            colorList.add(allColor);
-                                        }
-
-                                        Set<AllColor> set = new HashSet<>(colorList);
-                                        colorList.clear();
-                                        colorList.addAll(set);
-
-                                        colorAdapter = new OrderDetailColorAdapter(OrderDetailActivity.this, colorList);
-                                        rvColor.setAdapter(colorAdapter);
-                                        colorAdapter.setOnColorChangeListener(OrderDetailActivity.this, OrderDetailActivity.this);
-                                        colorAdapter.notifyDataSetChanged();
-                                    }else if (color!=null && !color.isEmpty() && color.trim().length() > 0){
-
-                                        colorLayout.setVisibility(View.VISIBLE);
-                                        tvProductColor.setVisibility(View.GONE);
-                                        sizeLayout.setVisibility(View.GONE);
-                                        tvProductSize.setVisibility(View.VISIBLE);
-                                        tvProductSize.setText("Select any one of the Available Color");
-                                        colorList.clear();
-
-                                        AllColor allColor = new AllColor(color);
-                                        colorList.add(allColor);
-
-                                        colorAdapter = new OrderDetailColorAdapter(OrderDetailActivity.this, colorList);
-                                        rvColor.setAdapter(colorAdapter);
-                                        colorAdapter.setOnColorChangeListener(OrderDetailActivity.this, OrderDetailActivity.this);
-                                        colorAdapter.notifyDataSetChanged();
-                                    }else {
-                                        colorLayout.setVisibility(View.GONE);
-                                        tvProductColor.setVisibility(View.VISIBLE);
-                                        tvProductColor.setText("NA");
-                                        getSize(barid, "NA");
-                                    }
 
                                     if (!quantity.equalsIgnoreCase("0")){
                                         tvStock.setText("In Stock");
@@ -1140,247 +1248,6 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
             {
                 Map<String, String>  params = new HashMap<String, String>();
                 params.put("id", id);
-                return params;
-            }
-        };
-        RequestQueue queue = Volley.newRequestQueue(OrderDetailActivity.this);
-        int socketTimeout = 30000;
-        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-        request.setRetryPolicy(policy);
-        queue.add(request);
-    }
-
-    private void getSize(final String id, final String color) {
-
-        progress.animate();
-        progress.setVisibility(View.VISIBLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-        StringRequest request = new StringRequest(Request.Method.POST, SIZE_URL,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-                        JSONObject jsonObject = null;
-                        try {
-                            jsonObject = new JSONObject(response);
-                            if (jsonObject != null){
-
-                                if (jsonObject.getString("status")
-                                        .equalsIgnoreCase("success")){
-                                    progress.setVisibility(View.GONE);
-                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-                                    sizeLayout.setVisibility(View.VISIBLE);
-                                    tvProductSize.setVisibility(View.GONE);
-
-                                    String data = jsonObject.getString("data");
-                                    JSONArray array = new JSONArray(data);
-
-                                    sizeList.clear();
-                                    for (int i = 0; i < array.length(); i++) {
-
-                                        JSONObject object = array.getJSONObject(i);
-
-                                        String size =  object.getString("size");
-
-                                        sizeList.add(new AllSize(size));
-
-                                    }
-
-                                    sizeAdapter = new OrderDetailSizeAdapter(OrderDetailActivity.this, sizeList);
-                                    rvSize.setAdapter(sizeAdapter);
-                                    sizeAdapter.setOnSizeChangeListener(OrderDetailActivity.this, OrderDetailActivity.this);
-                                    sizeAdapter.notifyDataSetChanged();
-
-                                }else if (jsonObject.getString("status")
-                                        .equalsIgnoreCase("empty")){
-                                    progress.setVisibility(View.GONE);
-                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-                                    sizeLayout.setVisibility(View.GONE);
-                                    tvProductSize.setVisibility(View.VISIBLE);
-                                    tvProductSize.setText("NA");
-
-                                    btnLayout.setVisibility(View.VISIBLE);
-
-                                }
-                                else if (jsonObject.getString("status")
-                                        .equalsIgnoreCase("failed")){
-                                    progress.setVisibility(View.GONE);
-                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-                                    FBToast.errorToast(OrderDetailActivity.this, jsonObject.getString("message"), FBToast.LENGTH_SHORT);
-                                }
-                            }else {
-                                progress.setVisibility(View.GONE);
-                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-                                FBToast.errorToast(OrderDetailActivity.this, "Something went wrong", FBToast.LENGTH_SHORT);
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            progress.setVisibility(View.GONE);
-                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-                            FBToast.errorToast(OrderDetailActivity.this, e.getMessage(), FBToast.LENGTH_SHORT);
-                        }
-
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                        progress.setVisibility(View.GONE);
-                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-                        String message = null;
-
-                        if (error instanceof NetworkError){
-                            message = "Can't Connect to Network!";
-                        }else if (error instanceof ServerError){
-                            message = "Server could not be Found!";
-                        }else if (error instanceof AuthFailureError){
-                            message = "Can't Connect to Network!";
-                        }else if (error instanceof ParseError){
-                            message = "Parsing Error!";
-                        }else if (error instanceof NoConnectionError){
-                            message = "Can't connect to Network!";
-                        }else if (error instanceof TimeoutError){
-                            message = "Connection Timeout!";
-                        }
-                        FBToast.errorToast(OrderDetailActivity.this, message, FBToast.LENGTH_SHORT);
-                    }
-                })
-        {
-            @Override
-            protected Map<String, String> getParams()
-            {
-                Map<String, String>  params = new HashMap<String, String>();
-                params.put("id", id);
-                params.put("color", color);
-                return params;
-            }
-        };
-        RequestQueue queue = Volley.newRequestQueue(OrderDetailActivity.this);
-        int socketTimeout = 30000;
-        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-        request.setRetryPolicy(policy);
-        queue.add(request);
-
-    }
-
-    private void getColorSizeProduct(final String detbarid, final String detcolor, final String detsize) {
-
-        progress.animate();
-        progress.setVisibility(View.VISIBLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-        StringRequest request = new StringRequest(Request.Method.POST, GET_COLOR_SIZE_URL,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-                        JSONObject jsonObject = null;
-                        try {
-                            jsonObject = new JSONObject(response);
-                            if (jsonObject != null){
-
-                                if (jsonObject.getString("status")
-                                        .equalsIgnoreCase("success")){
-                                    detailLayout.setVisibility(View.VISIBLE);
-                                    progress.setVisibility(View.GONE);
-                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-                                    String data = jsonObject.getString("data");
-                                    JSONArray array = new JSONArray(data);
-                                    JSONObject object = array.getJSONObject(0);
-
-                                    String id = object.getString("id");
-
-                                    Prefs.putString("did", id);
-
-                                    //FBToast.infoToast(GrabOfferActivity.this, id, FBToast.LENGTH_SHORT);
-
-                                }else if (jsonObject.getString("status")
-                                        .equalsIgnoreCase("empty")){
-                                    progress.setVisibility(View.GONE);
-                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                                    detailLayout.setVisibility(View.GONE);
-                                    emptyLayout.setVisibility(View.VISIBLE);
-                                }
-                                else if (jsonObject.getString("status")
-                                        .equalsIgnoreCase("failed")){
-                                    progress.setVisibility(View.GONE);
-                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-                                    FBToast.errorToast(OrderDetailActivity.this, jsonObject.getString("message"), FBToast.LENGTH_SHORT);
-                                }
-                            }else {
-                                progress.setVisibility(View.GONE);
-                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-                                FBToast.errorToast(OrderDetailActivity.this, "Something went wrong", FBToast.LENGTH_SHORT);
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            progress.setVisibility(View.GONE);
-                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-                            FBToast.errorToast(OrderDetailActivity.this, e.getMessage(), FBToast.LENGTH_SHORT);
-                        }
-
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                        progress.setVisibility(View.GONE);
-                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-                        String message = null;
-
-                        if (error instanceof NetworkError){
-                            message = "Can't Connect to Network!";
-                        }else if (error instanceof ServerError){
-                            message = "Server could not be Found!";
-                        }else if (error instanceof AuthFailureError){
-                            message = "Can't Connect to Network!";
-                        }else if (error instanceof ParseError){
-                            message = "Parsing Error!";
-                        }else if (error instanceof NoConnectionError){
-                            message = "Can't connect to Network!";
-                        }else if (error instanceof TimeoutError){
-                            message = "Connection Timeout!";
-                        }
-                        AlertDialog.Builder builder = new AlertDialog.Builder(OrderDetailActivity.this);
-                        AlertDialog alertDialog = builder.create();
-                        builder.setTitle("NETWORK ERROR")
-                                .setMessage(message)
-                                .setPositiveButton("Retry", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        finish();
-                                        startActivity(getIntent());
-                                    }
-                                })
-                                .setCancelable(false);
-                        alertDialog.show();
-                        FBToast.errorToast(OrderDetailActivity.this, message, FBToast.LENGTH_SHORT);
-                    }
-                })
-        {
-            @Override
-            protected Map<String, String> getParams()
-            {
-                Map<String, String>  params = new HashMap<String, String>();
-                params.put("barid", detbarid);
-                params.put("color", detcolor);
-                params.put("size", detsize);
                 return params;
             }
         };
@@ -1497,23 +1364,4 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
         super.onTrimMemory(level);
     }
 
-    @Override
-    public void onColorChanged(String color) {
-
-        String bid = Prefs.getString("barid", null);
-        getSize(bid, color);
-        Prefs.putString("grabproductcolor", color);
-    }
-
-    @Override
-    public void onSizeChanged(String size) {
-
-        Prefs.putString("grabproductsize", size);
-
-        String detbarid = Prefs.getString("barid", null);
-        String detcolor = Prefs.getString("grabproductcolor", null);
-        String detsize = Prefs.getString("grabproductsize", null);
-
-        getColorSizeProduct(detbarid, detcolor, detsize);
-    }
 }

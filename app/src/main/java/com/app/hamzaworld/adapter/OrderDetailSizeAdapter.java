@@ -18,6 +18,7 @@ import com.app.hamzaworld.data.AllSize;
 import com.app.hamzaworld.other.OnSizeChangeListener;
 import java.util.ArrayList;
 import static com.app.hamzaworld.activity.OrderDetailActivity.btnLayout;
+import static com.app.hamzaworld.activity.OrderDetailActivity.detailLayout;
 
 public class OrderDetailSizeAdapter extends RecyclerView.Adapter<OrderDetailSizeAdapter.ViewHolder> {
 
@@ -81,6 +82,7 @@ public class OrderDetailSizeAdapter extends RecyclerView.Adapter<OrderDetailSize
 
         if (!rb.isChecked()){
             btnLayout.setVisibility(View.GONE);
+            detailLayout.fullScroll(View.FOCUS_DOWN);
         }
 
         viewHolder.rgSize.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

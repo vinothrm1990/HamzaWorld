@@ -109,15 +109,15 @@ public class BagDetailActivity extends AppCompatActivity implements InternetConn
         bsize = intent.getStringExtra("size");
 
         if (id == null && product == null){
-            id = Prefs.getString("oid", null);
-            product = Prefs.getString("oproduct", null);
-            bcolor = Prefs.getString("ocolor", null);
-            bsize = Prefs.getString("osize", null);
+            id = Prefs.getString("bid", null);
+            product = Prefs.getString("bproduct", null);
+            bcolor = Prefs.getString("bcolor", null);
+            bsize = Prefs.getString("bsize", null);
         }else {
-            Prefs.putString("oid", id);
-            Prefs.putString("oproduct", product);
-            Prefs.putString("ocolor", bcolor);
-            Prefs.putString("osize", bsize);
+            Prefs.putString("bid", id);
+            Prefs.putString("bproduct", product);
+            Prefs.putString("bcolor", bcolor);
+            Prefs.putString("bsize", bsize);
         }
 
         TextView title = new TextView(getApplicationContext());
@@ -167,20 +167,18 @@ public class BagDetailActivity extends AppCompatActivity implements InternetConn
 
         String cusid = Prefs.getString("mobile", "");
 
-        /*if (cusid!=null && !cusid.isEmpty()){
+        if (cusid!=null && !cusid.isEmpty()){
             Date now = new Date();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             String timestamp = sdf.format(now);
             getCartFlag(cusid, id, timestamp);
             getBagFlag(cusid, id);
-        }*/
+        }
 
         reviewList = new ArrayList<>();
         rvReview = findViewById(R.id.rv_bag_detail_review);
         layoutManager = new LinearLayoutManager(this);
         rvReview.setLayoutManager(layoutManager);
-
-        getReview(id);
 
         tvTabProduct.setTextColor(getResources().getColor(R.color.colorWhite));
         tvTabProduct.setBackgroundColor(getResources().getColor(R.color.colorOrange));
@@ -241,6 +239,8 @@ public class BagDetailActivity extends AppCompatActivity implements InternetConn
                 tabProductLayout.setVisibility(View.GONE);
 
                 btnLayout.setVisibility(View.GONE);
+
+                getReview(id);
             }
         });
 
@@ -764,7 +764,7 @@ public class BagDetailActivity extends AppCompatActivity implements InternetConn
 
                                     String data = jsonObject.getString("data");
                                     JSONArray array = new JSONArray(data);
-
+                                    reviewList.clear();
                                     for (int i = 0; i < array.length(); i++) {
 
                                         JSONObject object = array.getJSONObject(0);
@@ -862,7 +862,7 @@ public class BagDetailActivity extends AppCompatActivity implements InternetConn
             protected Map<String, String> getParams()
             {
                 Map<String, String>  params = new HashMap<String, String>();
-                params.put("id", id);
+                params.put("product_id", id);
                 return params;
             }
         };
